@@ -9,7 +9,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 const baseStyle = "w-screen h-screen flex justify-center items-center bg-background overflow-hidden";
-const responsiveStyle = "max-w-2xl w-full h-full  py-[70px]  px-10 overflow-y-scroll hidden-scrollbar";
+const responsiveStyle = "max-w-3xl w-full h-full  py-[70px]  px-5 overflow-y-scroll hidden-scrollbar";
 
 export const metadata: Metadata = {
     title: "Create Next App",

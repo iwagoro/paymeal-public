@@ -51,8 +51,8 @@ export default function Home() {
                         <SheetTitle className="flex justify-start items-center gap-4">Buy now</SheetTitle>
                         <SheetDescription className="text-left">Currently the only user is a test user. We plan to implement authentication with a Google account sometime in the future.</SheetDescription>
                     </SheetHeader>
-                    <div className="max-w-2xl w-full">
-                        <div className="w-full p-5 bg-gray-100 rounded flex flex-col gap-5">
+                    <div className="max-w-2xl w-full bg-background">
+                        <div className="w-full p-5  rounded flex flex-col gap-5">
                             <div className="flex  justify-between items-center">
                                 <Large>Invoice</Large>
                                 <Large>1</Large>
