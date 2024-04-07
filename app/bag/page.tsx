@@ -6,6 +6,7 @@ import { H2, H3, Large, Mute, P } from "@/components/util/typography";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { createQR } from "@/components/util/paypay";
 import Image from "next/image";
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
@@ -74,7 +75,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <Button className="w-full py-8 text-xl font-medium mb-10" variant="outline">
+                    <Button className="w-full py-8 text-xl font-medium mb-10" variant="outline" onClick={createQR}>
                         Check out with
                         <Image width={32} height={32} src="/paypay-log.png" alt=""></Image>
                     </Button>

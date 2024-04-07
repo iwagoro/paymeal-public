@@ -10,8 +10,9 @@ export default function Menu() {
                     <H2>Popular Menu</H2>
                     <Mute>Here are some of the most popular menus in terms of weekly sales</Mute>
                 </div>
+
                 <FlowCard2>
-                    {Array.from({ length: 12 }).map((_, index) => (
+                    {Array.from({ length: 8 }).map((_, index) => (
                         <span className="text-4xl font-semibold">{index + 1}</span>
                     ))}
                 </FlowCard2>

@@ -19,16 +19,14 @@ export const Menus = () => {
             </TabsList>
             <TabsContent value="set-meal" className="grid grid-cols-1 sm:grid-cols-2  gap-5">
                 {Array.from({ length: 6 }).map((_, index) => (
-                    <Card>
+                    <Card key={index}>
                         <CardHeader>
                             <CardTitle>Title</CardTitle>
-                            <CardDescription>
-                                <List>
-                                    <li>description</li>
-                                    <li>description</li>
-                                    <li>description</li>
-                                </List>
-                            </CardDescription>
+                            <List>
+                                <li>description</li>
+                                <li>description</li>
+                                <li>description</li>
+                            </List>
                         </CardHeader>
                         <CardContent className="w-full">
                             <AspectRatio ratio={16 / 9} className="bg-muted">
