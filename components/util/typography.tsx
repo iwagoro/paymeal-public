@@ -3,7 +3,7 @@ export const H1 = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const H2 = ({ children }: { children: React.ReactNode }) => {
-    return <h2 className="scroll-m-20  text-3xl font-semibold tracking-tight first:mt-0">{children}</h2>;
+    return <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">{children}</h2>;
 };
 
 export const H3 = ({ children }: { children: React.ReactNode }) => {
@@ -20,4 +20,8 @@ export const P = ({ children }: { children: React.ReactNode }) => {
 
 export const Large = ({ children }: { children: React.ReactNode }) => {
     return <div className="text-lg font-medium">{children}</div>;
+};
+
+export const Mute = ({ children }: { children: React.ReactNode }) => {
+    return <p className="text-sm text-muted-foreground mt-1">{children}</p>;
 };

@@ -1,27 +1,39 @@
 "use client";
 import { useContext } from "react";
 import { AppContext } from "@/components/util/provider/app-provider";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
-
+import { H1, H2, H3, Mute, P } from "@/components/util/typography";
+import { FlowCard1, FlowCard2 } from "@/components/util/flow-card";
 export default function Home() {
     const { user } = useContext(AppContext);
     return (
-        <div className="w-full flex flex-col justify-start items-center gap-5">
-            <div className="w-full  flex justify-center">
-                <Carousel className="w-full max-w-md ">
-                    <CarouselContent>
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <CarouselItem key={index} className="basis-1/3">
-                                <Card className="aspect-[9/16]">
-                                    <CardContent className="flex h-full  w-full items-center justify-center p-6">
-                                        <span className="text-4xl font-semibold">{index + 1}</span>
-                                    </CardContent>
-                                </Card>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                </Carousel>
+        <div className="w-full flex flex-col justify-start items-start gap-5 ">
+            <div>
+                <H1>Welcom Back!</H1>
+                <P>This application is only a test version. In the meantime, we plan to support Paypay payments. Also, the authentication function has not yet been implemented, so it can only be used by test users. I intend to specify the domain with tokuyama.kosen-ac.jp using the email address authentication function of Firebase Authorization sooner or later.</P>
+            </div>
+
+            <div className="w-full flex flex-col gap-5">
+                <div>
+                    <H2>Information</H2>
+                    <P>Here are some of the information </P>
+                </div>
+                <FlowCard1 amount={1}>
+                    {Array.from({ length: 8 }).map((_, index) => (
+                        <span className="text-4xl font-semibold">{index + 1}</span>
+                    ))}
+                </FlowCard1>
+            </div>
+            <div className="w-full flex flex-col gap-5">
+                <div>
+                    <H2>Popular Menu</H2>
+                    <P>Here are some of the most popular menus in terms of weekly sales</P>
+                </div>
+
+                <FlowCard2 amount={2}>
+                    {Array.from({ length: 8 }).map((_, index) => (
+                        <span className="text-4xl font-semibold">{index + 1}</span>
+                    ))}
+                </FlowCard2>
             </div>
         </div>
     );
