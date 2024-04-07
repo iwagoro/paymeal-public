@@ -3,12 +3,13 @@ import { Inter } from "next/font/google";
 import { TopBar } from "@/components/util/baseLayout/top-bar";
 import { BottomBar } from "@/components/util/baseLayout/bottom-bar";
 import { ThemeProvider } from "@/components/util/provider/theme-provider";
+import { AppProvider } from "@/components/util/provider/app-provider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const baseStyle = "w-screen h-screen flex justify-center bg-background overflow-hidden";
-const responsiveStyle = "max-w-2xl w-ful h-full flex flex-col items-center justify-start py-[50px]  px-5 ";
+const baseStyle = "w-screen h-screen flex justify-center items-center bg-background overflow-hidden";
+const responsiveStyle = "max-w-2xl w-full h-full  py-[70px]  px-10 overflow-y-scroll hidden-scrollbar";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -24,9 +25,11 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className + " " + baseStyle}>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                    <TopBar />
-                    <div className={responsiveStyle}>{children}</div>
-                    <BottomBar />
+                    <AppProvider>
+                        <TopBar />
+                        <div className={responsiveStyle}>{children}</div>
+                        <BottomBar />
+                    </AppProvider>
                 </ThemeProvider>
             </body>
         </html>

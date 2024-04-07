@@ -7,7 +7,7 @@ import { Menu } from "@/components/util/baseLayout/menu";
 export const TopBar = () => {
     const { theme, setTheme } = useTheme();
     return (
-        <div className="absolute z-50 max-w-2xl w-full h-[50px] flex justify-between items-center px-10  gap-10 bg-transparent">
+        <div className="absolute top-0  z-50 max-w-2xl w-full h-[50px] flex justify-between items-center px-10  gap-10 bg-transparent">
             <Link href="/home">
                 <div className="flex gap-4 items-center bg-transparent">
                     <svg width="24" height="24" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
