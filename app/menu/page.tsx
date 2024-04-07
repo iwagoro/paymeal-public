@@ -1,5 +1,5 @@
 "use client";
-import { H2, P } from "@/components/util/typography";
+import { H2, P, Mute } from "@/components/util/typography";
 import { FlowCard2 } from "@/components/util/flow-card";
 import { Menus } from "./menus";
 export default function Menu() {
@@ -8,9 +8,9 @@ export default function Menu() {
             <div className="w-full flex flex-col gap-5">
                 <div>
                     <H2>Popular Menu</H2>
-                    <P>Here are some of the most popular menus in terms of weekly sales</P>
+                    <Mute>Here are some of the most popular menus in terms of weekly sales</Mute>
                 </div>
-                <FlowCard2 amount={2}>
+                <FlowCard2>
                     {Array.from({ length: 12 }).map((_, index) => (
                         <span className="text-4xl font-semibold">{index + 1}</span>
                     ))}
@@ -19,7 +19,7 @@ export default function Menu() {
             <div className="w-full flex flex-col gap-5">
                 <div>
                     <H2>Menus</H2>
-                    <P>Here are some of menus</P>
+                    <Mute>Here are some of menus</Mute>
                 </div>
                 <Menus />
             </div>

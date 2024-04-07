@@ -9,15 +9,15 @@ export default function Home() {
         <div className="w-full flex flex-col justify-start items-start gap-5 ">
             <div>
                 <H1>Welcom Back!</H1>
-                <P>This application is only a test version. In the meantime, we plan to support Paypay payments. Also, the authentication function has not yet been implemented, so it can only be used by test users. I intend to specify the domain with tokuyama.kosen-ac.jp using the email address authentication function of Firebase Authorization sooner or later.</P>
+                <Mute>This application is only a test version. In the meantime, we plan to support Paypay payments. Also, the authentication function has not yet been implemented, so it can only be used by test users. I intend to specify the domain with tokuyama.kosen-ac.jp using the email address authentication function of Firebase Authorization sooner or later.</Mute>
             </div>
 
             <div className="w-full flex flex-col gap-5">
                 <div>
                     <H2>Information</H2>
-                    <P>Here are some of the information </P>
+                    <Mute>Here are some of the information </Mute>
                 </div>
-                <FlowCard1 amount={1}>
+                <FlowCard1>
                     {Array.from({ length: 8 }).map((_, index) => (
                         <span className="text-4xl font-semibold">{index + 1}</span>
                     ))}
@@ -26,10 +26,10 @@ export default function Home() {
             <div className="w-full flex flex-col gap-5">
                 <div>
                     <H2>Popular Menu</H2>
-                    <P>Here are some of the most popular menus in terms of weekly sales</P>
+                    <Mute>Here are some of the most popular menus in terms of weekly sales</Mute>
                 </div>
 
-                <FlowCard2 amount={2}>
+                <FlowCard2>
                     {Array.from({ length: 8 }).map((_, index) => (
                         <span className="text-4xl font-semibold">{index + 1}</span>
                     ))}
