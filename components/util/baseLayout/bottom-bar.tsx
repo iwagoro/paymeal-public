@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { GoHome, GoSearch, GoBell, GoHistory } from "react-icons/go";
+import { IoBagOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -26,8 +27,8 @@ export const BottomBar = () => {
             <Link href="/notification" className={page === "notification" ? "text-primary" : ""}>
                 <GoBell size={18} />
             </Link>
-            <Link href="/history" className={page === "history" ? "text-primary" : ""}>
-                <GoHistory size={18} />
+            <Link href="/bag" className={page === "bag" ? "text-primary" : ""}>
+                <IoBagOutline size={18} />
             </Link>
         </div>
     );

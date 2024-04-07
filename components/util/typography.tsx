@@ -25,3 +25,7 @@ export const Large = ({ children }: { children: React.ReactNode }) => {
 export const Mute = ({ children }: { children: React.ReactNode }) => {
     return <p className="text-sm text-muted-foreground mt-1">{children}</p>;
 };
+
+export const List = ({ children }: { children: React.ReactNode }) => {
+    return <ul className="my-6 ml-6 list-disc [&>li]:mt-2">{children}</ul>;
+};

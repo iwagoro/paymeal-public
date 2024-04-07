@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from "@/components/ui/card";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { List } from "@/components/util/typography";
 
 export const Menus = () => {
     return (
@@ -16,18 +17,25 @@ export const Menus = () => {
                 <TabsTrigger value="rice">rice</TabsTrigger>
                 <TabsTrigger value="sub">sub</TabsTrigger>
             </TabsList>
-            <TabsContent value="set-meal" className="flex flex-wrap justify-between">
+            <TabsContent value="set-meal" className="grid grid-cols-1 sm:grid-cols-2  gap-5">
                 {Array.from({ length: 6 }).map((_, index) => (
-                    <Card className="w-[calc(100%_/_2_-_40px)] m-5">
+                    <Card>
                         <CardHeader>
                             <CardTitle>Title</CardTitle>
-                            <CardDescription>Description</CardDescription>
+                            <CardDescription>
+                                <List>
+                                    <li>description</li>
+                                    <li>description</li>
+                                    <li>description</li>
+                                </List>
+                            </CardDescription>
                         </CardHeader>
                         <CardContent className="w-full">
                             <AspectRatio ratio={16 / 9} className="bg-muted">
                                 <Image src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80" alt="Photo by Drew Beamer" fill className="rounded-md object-cover" />
                             </AspectRatio>
                         </CardContent>
+                        <CardFooter className="">Price</CardFooter>
                     </Card>
                 ))}
             </TabsContent>
