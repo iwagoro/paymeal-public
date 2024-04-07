@@ -20,7 +20,7 @@ export default function Home() {
                 <Mute>The application goes through two processes before ordering food. In process 1, you purchase your food from this app. Currently, only Paypay is supported as a payment method. In Process 2, you order the food from the Notification page, and the food will start cooking. The app will notify you when the food is ready.</Mute>
             </div>
             {Array.from({ length: 3 }).map((_, i) => (
-                <Card className="w-full flex justify-start  items-center">
+                <Card key={i} className="w-full flex justify-start  items-center">
                     <div className="w-[100px] h-[100px] bg-border m-5 rounded-md"></div>
 
                     <div className="flex-1">

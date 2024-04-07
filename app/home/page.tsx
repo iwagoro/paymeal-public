@@ -19,7 +19,9 @@ export default function Home() {
                 </div>
                 <FlowCard1>
                     {Array.from({ length: 8 }).map((_, index) => (
-                        <span className="text-4xl font-semibold">{index + 1}</span>
+                        <span key={index} className="text-4xl font-semibold">
+                            {index + 1}
+                        </span>
                     ))}
                 </FlowCard1>
             </div>
@@ -31,7 +33,9 @@ export default function Home() {
 
                 <FlowCard2>
                     {Array.from({ length: 8 }).map((_, index) => (
-                        <span className="text-4xl font-semibold">{index + 1}</span>
+                        <span key={index} className="text-4xl font-semibold">
+                            {index + 1}
+                        </span>
                     ))}
                 </FlowCard2>
             </div>
