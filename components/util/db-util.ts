@@ -14,3 +14,9 @@ export const getUserData = async (user: string) => {
     const docSnap = await getDoc(docRef);
     return docSnap.data();
 };
+
+export const getUserBag = async (user: string) => {
+    const docRef = doc(db, "user", user, "bag");
+    const docSnap = await getDoc(docRef);
+    return docSnap.data();
+};
