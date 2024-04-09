@@ -1,27 +1,32 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "@/components/util/provider/app-provider";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { H2, H3, Large, Mute, P } from "@/components/util/typography";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useRouter, usePathname } from "next/navigation";
+import { getUserBag } from "@/components/util/db-util";
 import Image from "next/image";
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 
 export default function Home() {
     const { user } = useContext(AppContext);
-    const router = useRouter();
-    const pathname = usePathname();
+
+    useEffect(() => {
+        const fetchBag = async () => {
+            const bag = await getUserBag(user);
+            console.log(bag);
+        };
+        fetchBag();
+    }, [user]);
 
     async function getData() {
         const res = await fetch("/api");
         const data = await res.json();
         const url = data.paymentUrl.url;
         console.log(url);
-        // router.push(url);
     }
     return (
         <div className="w-full flex flex-col justify-start items-start gap-5 ">
