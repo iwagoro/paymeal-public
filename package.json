@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@line/bot-sdk": "^9.1.0",
     "@paypayopa/paypayopa-sdk-node": "^2.1.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -23,10 +24,13 @@
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
+    "@radix-ui/react-toast": "^1.1.5",
+    "@types/firebase": "^3.2.1",
     "@types/uuid": "^9.0.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "embla-carousel-react": "^8.0.1",
+    "firebase": "^10.10.0",
     "lucide-react": "^0.365.0",
     "next": "14.1.4",
     "next-theme": "^0.1.5",
