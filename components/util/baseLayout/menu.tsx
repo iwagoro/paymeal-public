@@ -7,6 +7,11 @@ import { MdBrightness2, MdBrightness5, MdMenu } from "react-icons/md";
 
 export const Menu = () => {
     const { theme, setTheme } = useTheme();
+    const sendLine = async () => {
+        const response = await fetch(`http://localhost:3000/api/kazukidayo`);
+        const data = await response.json();
+        console.log("🚀 ~ file: index.tsx ~ line 11 ~ sendLine ~ data", data);
+    };
     return (
         <Sheet>
             <SheetTrigger>
@@ -31,6 +36,17 @@ export const Menu = () => {
                     >
                         {theme === "dark" ? <MdBrightness5 size={24} /> : <MdBrightness2 size={24} />}
                         <Large>Change Color</Large>
+                    </div>
+                </div>
+                <div className="w-full flex flex-col gap-4  pb-5 border-b-[1px] border-border">
+                    <div
+                        className={`flex gap-5 items-center  bg-transparent curosr-pointer`}
+                        onClick={() => {
+                            sendLine();
+                        }}
+                    >
+                        {theme === "dark" ? <MdBrightness5 size={24} /> : <MdBrightness2 size={24} />}
+                        <Large>snedline</Large>
                     </div>
                 </div>
             </SheetContent>

@@ -6,6 +6,7 @@ import { Menu } from "@/components/util/baseLayout/menu";
 
 export const TopBar = () => {
     const { theme, setTheme } = useTheme();
+
     return (
         <div className="absolute top-0  z-50 max-w-2xl w-full h-[50px] flex justify-between items-center px-10  gap-10 bg-background">
             <Link href="/home">
