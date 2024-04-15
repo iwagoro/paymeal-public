@@ -1,10 +1,10 @@
 "use client";
-import { H1, Mute, H3 } from "@/components/util/typography";
+import { H1, Mute, H3 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useState, useEffect } from "react";
-import { createUser, signIn } from "@/components/util/auth";
+import { createUser, signIn } from "@/lib/auth";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
