@@ -8,9 +8,9 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const createUserDoc = (user: any) => {
-    const docRef = doc(db, "user", user.email);
+    const docRef = doc(db, "user", user);
     setDoc(docRef, {
-        email: user.email,
+        email: user,
         orders: [],
         chats: [],
         bag: [],
@@ -22,10 +22,10 @@ export const createUser = async (email: string, password: string) => {
         .then((userCredential: any) => {
             // Signed in
             const user = userCredential.user;
-            createUserDoc(user);
+            createUserDoc(user.email);
             console.log("user", user);
 
-            return user;
+            return user.email as string;
         })
         .catch((error: any) => {
             const errorCode = error.code;
@@ -41,7 +41,7 @@ export const signIn = async (email: string, password: string) => {
             // Signed in
             const user = userCredential.user;
             // ...
-            return user;
+            return user.email as string;
         })
         .catch((error: any) => {
             const errorCode = error.code;
