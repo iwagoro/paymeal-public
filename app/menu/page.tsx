@@ -1,5 +1,5 @@
 "use client";
-import { H2, P, Mute } from "@/components/util/typography";
+import { H2, P, Mute } from "@/components/ui/typography";
 import { FlowCard2 } from "@/components/util/flow-card";
 import { Menus } from "./menus";
 export default function Menu() {

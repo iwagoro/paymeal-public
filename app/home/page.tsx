@@ -1,7 +1,7 @@
 "use client";
 import { useContext } from "react";
 import { AppContext } from "@/components/util/provider/app-provider";
-import { H1, H2, H3, Mute, P } from "@/components/util/typography";
+import { H1, H2, H3, Mute, P } from "@/components/ui/typography";
 import { FlowCard1, FlowCard2 } from "@/components/util/flow-card";
 export default function Home() {
     const { user } = useContext(AppContext);

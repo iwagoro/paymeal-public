@@ -1,11 +1,11 @@
 "use client";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Large } from "@/components/util/typography";
+import { Large } from "@/components/ui/typography";
 import { useTheme } from "next-themes";
 import { MdBrightness2, MdBrightness5, MdMenu } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
-import { logOut } from "../auth";
+import { logOut } from "../../../lib/auth";
 import { useRouter } from "next/navigation";
 
 export const Menu = () => {
