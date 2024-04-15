@@ -48,6 +48,7 @@ export default function Home() {
     async function getData() {
         const id = uuidV4();
         const menus = bag.map((item) => item.name);
+
         try {
             const res = await fetch("/api/paypay");
             if (!res.ok) {
