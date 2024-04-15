@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { P, Large, Mute } from "@/components/util/typography";
+import { P, Large, Mute } from "@/components/ui/typography";
 import { FaExclamation } from "react-icons/fa6";
 
 export const SystemMessage = () => {

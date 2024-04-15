@@ -23,7 +23,7 @@ export const Large = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const Mute = ({ children }: { children: React.ReactNode }) => {
-    return <p className="text-sm text-muted-foreground mt-1">{children}</p>;
+    return <p className="text-sm text-muted-foreground px-2 mt-1">{children}</p>;
 };
 
 export const List = ({ children }: { children: React.ReactNode }) => {

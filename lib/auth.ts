@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { app } from "@/components/util/firebase";
+import { app } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { toast } from "sonner";
@@ -8,11 +8,12 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const createUserDoc = (user: any) => {
-    const docRef = doc(db, "user", user.uid);
+    const docRef = doc(db, "user", user.email);
     setDoc(docRef, {
         email: user.email,
         orders: [],
         chats: [],
+        bag: [],
     });
 };
 

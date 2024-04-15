@@ -1,63 +1,98 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/components/util/provider/app-provider";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { H2, H3, Large, Mute, P } from "@/components/util/typography";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { getUserBag } from "@/components/util/db-util";
+import { H2, Large, Mute } from "@/components/ui/typography";
 import Image from "next/image";
+import { v4 as uuidV4 } from "uuid";
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
+import { getUserBag, getRefDoc } from "@/lib/db-util";
+import { DocumentReference } from "firebase/firestore";
+import { toast } from "sonner";
+import { MdOutlineClose } from "react-icons/md";
+import { bagProps, menuProps } from "@/lib/interface";
+// import { useRouter } from "next/router";
 
 export default function Home() {
     const { user } = useContext(AppContext);
+    const [bag, setBag] = useState<bagProps[]>([]);
+    const [total, setTotal] = useState<number>(0);
+    // const router = useRouter();
 
     useEffect(() => {
         const fetchBag = async () => {
-            const bag = await getUserBag(user);
-            console.log(bag);
+            if (user.email) {
+                const userData = await getUserBag(user.email);
+                if (userData != undefined && userData.bag != undefined) {
+                    userData.bag.map(async (item: DocumentReference) => {
+                        const data = (await getRefDoc(item.path)) as menuProps;
+                        setBag((prev) => [...prev, { ...data } as bagProps]);
+                    });
+                }
+            }
         };
+
         fetchBag();
     }, [user]);
 
+    useEffect(() => {
+        let total = 0;
+        bag.map((item) => (total += item.price));
+        setTotal(total);
+    }, [bag]);
+
     async function getData() {
-        const res = await fetch("/api");
-        const data = await res.json();
-        const url = data.paymentUrl.url;
-        console.log(url);
+        const id = uuidV4();
+        const menus = bag.map((item) => item.name);
+        try {
+            const res = await fetch("/api/paypay");
+            if (!res.ok) {
+                throw new Error("ネットワークの応答が正常ではありませんでした");
+            }
+            const data = await res.json();
+            // console.log(data.data.url);
+            // router.push(data.data.url);
+            window.location.href = data.data.url;
+        } catch (error) {
+            console.error("データの取得中にエラーが発生しました:", error);
+        }
     }
+
+    const deleteItem = (index: number) => {
+        const newBag = [...bag];
+        newBag.splice(index, 1);
+        setBag(newBag);
+    };
+
     return (
         <div className="w-full flex flex-col justify-start items-start gap-5 ">
             <div>
                 <H2>Your Shopping Bag</H2>
                 <Mute>The application goes through two processes before ordering food. In process 1, you purchase your food from this app. Currently, only Paypay is supported as a payment method. In Process 2, you order the food from the Notification page, and the food will start cooking. The app will notify you when the food is ready.</Mute>
             </div>
-            {Array.from({ length: 3 }).map((_, i) => (
+            {bag.map((item, i) => (
                 <Card key={i} className="w-full flex justify-start  items-center">
-                    <div className="w-[100px] h-[100px] bg-border m-5 rounded-md"></div>
-
+                    <div className="w-[100px] h-[100px] bg-border m-5 rounded-md">
+                        <Image src={item.image} alt="food" width={100} height={100} className="rounded-md object-fit" />
+                    </div>
                     <div className="flex-1">
                         <CardHeader className="pl-0">
-                            <Large>Item Name</Large>
-                            <Mute>Price</Mute>
+                            <Large>{item.name}</Large>
+                            <Mute>¥{item.price}</Mute>
                         </CardHeader>
-                        <CardContent className="pl-0">
-                            <div className="w-fit flex items-center gap-3">
-                                <CiCircleMinus size={18} />
-                                <p>1</p>
-                                <CiCirclePlus size={18} />
-                            </div>
-                        </CardContent>
                     </div>
+                    <MdOutlineClose size={24} className="m-5" onClick={() => deleteItem(i)} />
                 </Card>
             ))}
 
             <Separator />
             <div className="w-full flex justify-between items-center">
-                <Large>3 items</Large>
-                <Large>Total price : ¥1500</Large>
+                <Large>{bag.length} items</Large>
+                <Large>Total price : ¥{total}</Large>
             </div>
             <Sheet>
                 <SheetTrigger className="w-full text-xl p-3 bg-background border border-border rounded-md font-semibold ">Buy now</SheetTrigger>
@@ -75,7 +110,7 @@ export default function Home() {
                             <Separator />
                             <div className="flex  justify-between items-center">
                                 <Mute>Total</Mute>
-                                <Mute>¥1500</Mute>
+                                <Mute>{total}</Mute>
                             </div>
                             <div className="flex  justify-between items-center">
                                 <Mute>voucher</Mute>
@@ -85,7 +120,7 @@ export default function Home() {
                             <Separator />
                             <div className="flex  justify-between items-center">
                                 <Large>Total</Large>
-                                <Large>¥1500</Large>
+                                <Large>¥{total}</Large>
                             </div>
                         </div>
                     </div>
