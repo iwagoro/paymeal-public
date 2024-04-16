@@ -25,7 +25,7 @@ export const Menu = () => {
                         <Avatar>
                             <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
                         </Avatar>
-                        {user.email.slice(0, user.email.indexOf("@"))}
+                        {user.email}
                     </SheetTitle>
                     <SheetDescription className="text-left">Currently the only user is a test user. We plan to implement authentication with a Google account sometime in the future.</SheetDescription>
                 </SheetHeader>

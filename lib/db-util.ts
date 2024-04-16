@@ -6,7 +6,6 @@ const db = getFirestore(app);
 export const getMenus = async () => {
     const colRef = collection(db, "menu");
     const docSnap = await getDocs(colRef);
-    console.log(docSnap.docs);
     return [docSnap.docs.map((doc) => doc.id), docSnap.docs.map((doc) => doc.data())];
 };
 

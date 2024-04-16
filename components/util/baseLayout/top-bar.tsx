@@ -32,6 +32,7 @@ export const TopBar = () => {
                                 <h2 className="scroll-m-20  text-[24px] font-semibold tracking-tight first:mt-0">Paymeal</h2>
                             </div>
                         </Link>
+
                         <Menu />
                     </div>
                     <Toaster></Toaster>
