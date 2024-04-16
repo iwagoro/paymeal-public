@@ -1,49 +1,30 @@
 "use client";
-import { H1, Mute, H3 } from "@/components/ui/typography";
+import { Mute, H3 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useState, useEffect } from "react";
-import { createUser, signIn } from "@/lib/auth";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { createUser, loginUser } from "@/lib/auth";
 
 export default function Login() {
-    const router = useRouter();
-
     const signinHandler = async () => {
         const email = document.getElementById("signin-email") as HTMLInputElement;
         const password = document.getElementById("signin-password") as HTMLInputElement;
 
-        if (!email.value || !password.value) {
-            toast("Opps!", { description: "Please fill in all fields" });
-            return;
-        }
-
-        const user = await signIn(email.value, password.value);
-        if (user !== null && user !== undefined) {
-            toast("Opps!", { description: "An error occured" });
+        if (email.value !== "" && password.value !== "") {
+            loginUser(email.value, password.value);
         } else {
-            toast("Success", { description: "You have successfully signed in" });
-            router.push("/home");
+            toast("Opps!", { description: "Please fill in all fields" });
         }
     };
 
     const signupHandler = async () => {
         const email = document.getElementById("signup-email") as HTMLInputElement;
         const password = document.getElementById("signup-password") as HTMLInputElement;
-        if (!email.value || !password.value) {
-            toast("Opps!", { description: "Please fill in all fields" });
-            return;
-        }
-
-        const user = await createUser(email.value, password.value);
-        if (user !== null && user !== undefined) {
-            toast("Opps!", { description: "An error occured" });
+        if (email.value !== "" && password.value !== "") {
+            createUser(email.value, password.value);
         } else {
-            router.push("/home");
-            toast("Success", { description: "You have successfully created an account" });
+            toast("Opps!", { description: "Please fill in all fields" });
         }
     };
 

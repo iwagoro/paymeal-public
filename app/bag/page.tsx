@@ -2,40 +2,38 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/components/util/provider/app-provider";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { H2, Large, Mute } from "@/components/ui/typography";
 import Image from "next/image";
-import { v4 as uuidV4 } from "uuid";
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 import { getUserBag, getRefDoc } from "@/lib/db-util";
 import { DocumentReference } from "firebase/firestore";
-import { toast } from "sonner";
 import { MdOutlineClose } from "react-icons/md";
 import { bagProps, menuProps } from "@/lib/interface";
-// import { useRouter } from "next/router";
-
+import { createPayment } from "@/lib/paypay";
+import { create } from "domain";
 export default function Home() {
     const { user } = useContext(AppContext);
     const [bag, setBag] = useState<bagProps[]>([]);
     const [total, setTotal] = useState<number>(0);
-    // const router = useRouter();
 
     useEffect(() => {
         const fetchBag = async () => {
             if (user.email) {
                 const userData = await getUserBag(user.email);
-                if (userData != undefined && userData.bag != undefined) {
-                    userData.bag.map(async (item: DocumentReference) => {
-                        const data = (await getRefDoc(item.path)) as menuProps;
-                        setBag((prev) => [...prev, { ...data } as bagProps]);
-                    });
+                if (userData !== undefined && userData.bag !== undefined) {
+                    const newBag = await Promise.all(
+                        userData.bag.map(async (item: DocumentReference) => {
+                            const data = (await getRefDoc(item.path)) as menuProps;
+                            return data;
+                        })
+                    );
+                    setBag(newBag);
                 }
             }
         };
-
         fetchBag();
     }, [user]);
 
@@ -46,21 +44,8 @@ export default function Home() {
     }, [bag]);
 
     async function getData() {
-        const id = uuidV4();
         const menus = bag.map((item) => item.name);
-
-        try {
-            const res = await fetch("/api/paypay");
-            if (!res.ok) {
-                throw new Error("ネットワークの応答が正常ではありませんでした");
-            }
-            const data = await res.json();
-            // console.log(data.data.url);
-            // router.push(data.data.url);
-            window.location.href = data.data.url;
-        } catch (error) {
-            console.error("データの取得中にエラーが発生しました:", error);
-        }
+        createPayment(menus, total);
     }
 
     const deleteItem = (index: number) => {
