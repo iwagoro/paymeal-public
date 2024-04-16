@@ -7,15 +7,13 @@ import { MdBrightness2, MdBrightness5, MdMenu } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { logOut } from "../../../lib/auth";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { AppContext } from "@/components/util/provider/app-provider";
 
 export const Menu = () => {
     const { theme, setTheme } = useTheme();
+    const { user } = useContext(AppContext);
     const router = useRouter();
-    const sendLine = async () => {
-        const response = await fetch(`http://localhost:3000/api/kazukidayo`);
-        const data = await response.json();
-        console.log("🚀 ~ file: index.tsx ~ line 11 ~ sendLine ~ data", data);
-    };
     return (
         <Sheet>
             <SheetTrigger>
@@ -27,7 +25,7 @@ export const Menu = () => {
                         <Avatar>
                             <AvatarImage src="https://github.com/shadcn.png" alt="avatar" />
                         </Avatar>
-                        Test User
+                        {user.email}
                     </SheetTitle>
                     <SheetDescription className="text-left">Currently the only user is a test user. We plan to implement authentication with a Google account sometime in the future.</SheetDescription>
                 </SheetHeader>

@@ -29,6 +29,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 if (user) {
                     const userData = await getUserData(user.email || "");
                     setUser(userData as userDataProps);
+                    router.push("/home");
                 } else {
                     setUser({} as userDataProps);
                     router.push("/login");

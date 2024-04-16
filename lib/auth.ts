@@ -1,3 +1,4 @@
+"use client";
 import { getAuth } from "firebase/auth";
 import { app } from "@/lib/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
@@ -7,7 +8,7 @@ import { toast } from "sonner";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const createUserDoc = (user: any) => {
+export const createUserDoc = (user: any) => {
     const docRef = doc(db, "user", user);
     setDoc(docRef, {
         email: user,
@@ -20,34 +21,24 @@ const createUserDoc = (user: any) => {
 export const createUser = async (email: string, password: string) => {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential: any) => {
-            // Signed in
-            const user = userCredential.user;
-            createUserDoc(user.email);
-            console.log("user", user);
-
-            return user.email as string;
+            window.location.href = "/home";
+            createUserDoc(email);
+            toast("Success", { description: "You have successfully created an account" });
         })
         .catch((error: any) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
-            return "";
+            console.log(error);
+            toast("Opps!", { description: "An error occured" });
         });
 };
 
-export const signIn = async (email: string, password: string) => {
+export const loginUser = async (email: string, password: string) => {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential: any) => {
-            // Signed in
-            const user = userCredential.user;
-            // ...
-            return user.email as string;
+            window.location.href = "/home";
+            toast("Success", { description: "You have successfully created an account" });
         })
         .catch((error: any) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
-            return "";
+            toast("Opps!", { description: "An error occured" });
         });
 };
 
