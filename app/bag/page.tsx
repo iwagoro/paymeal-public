@@ -35,7 +35,7 @@ export default function Home() {
                 }
             }
         };
-
+        setBag([]);
         fetchBag();
     }, [user]);
 

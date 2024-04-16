@@ -7,7 +7,7 @@ import { toast } from "sonner";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const createUserDoc = (user: any) => {
+export const createUserDoc = (user: any) => {
     const docRef = doc(db, "user", user);
     setDoc(docRef, {
         email: user,
@@ -33,6 +33,7 @@ export const createUser = async (email: string, password: string) => {
             // ..
             return "";
         });
+    return "";
 };
 
 export const signIn = async (email: string, password: string) => {
@@ -49,6 +50,7 @@ export const signIn = async (email: string, password: string) => {
             // ..
             return "";
         });
+    return "";
 };
 
 export const logOut = async () => {

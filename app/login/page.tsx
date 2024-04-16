@@ -1,17 +1,16 @@
 "use client";
-import { H1, Mute, H3 } from "@/components/ui/typography";
+import { H1, Mute, H3, P } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useState, useEffect } from "react";
-import { createUser, signIn } from "@/lib/auth";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { signInWithEmailAndPassword, getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { app } from "@/lib/firebase";
+import { createUserDoc } from "@/lib/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
     const router = useRouter();
-
     const signinHandler = async () => {
         const email = document.getElementById("signin-email") as HTMLInputElement;
         const password = document.getElementById("signin-password") as HTMLInputElement;
@@ -21,30 +20,37 @@ export default function Login() {
             return;
         }
 
-        const user = await signIn(email.value, password.value);
-        if (user !== null && user !== undefined) {
-            toast("Opps!", { description: "An error occured" });
-        } else {
-            toast("Success", { description: "You have successfully signed in" });
-            router.push("/home");
-        }
+        const auth = getAuth(app);
+        signInWithEmailAndPassword(auth, email.value, password.value)
+            .then((userCredential: any) => {
+                router.push("/home");
+                toast("Success", { description: "You have successfully created an account" });
+            })
+            .catch((error: any) => {
+                toast("Opps!", { description: "An error occured" });
+            });
     };
 
     const signupHandler = async () => {
         const email = document.getElementById("signup-email") as HTMLInputElement;
         const password = document.getElementById("signup-password") as HTMLInputElement;
+        console.log(email.value, password.value);
         if (!email.value || !password.value) {
             toast("Opps!", { description: "Please fill in all fields" });
             return;
         }
 
-        const user = await createUser(email.value, password.value);
-        if (user !== null && user !== undefined) {
-            toast("Opps!", { description: "An error occured" });
-        } else {
-            router.push("/home");
-            toast("Success", { description: "You have successfully created an account" });
-        }
+        const auth = getAuth(app);
+        createUserWithEmailAndPassword(auth, email.value, password.value)
+            .then((userCredential: any) => {
+                router.push("/home");
+                createUserDoc(email.value);
+                toast("Success", { description: "You have successfully created an account" });
+            })
+            .catch((error: any) => {
+                console.log(error);
+                toast("Opps!", { description: "An error occured" });
+            });
     };
 
     return (
