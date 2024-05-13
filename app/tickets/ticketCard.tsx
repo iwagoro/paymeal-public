@@ -15,7 +15,7 @@ export const TicketCard = ({ ticket, addToBag }: { ticket: ticketProps; addToBag
             </CardHeader>
             <CardContent>
                 <AspectRatio ratio={16 / 9} className="bg-muted rounded-md">
-                    <img src={ticket.img_url} alt="Photo by Drew Beamer" className="rounded-md object-cover" />
+                    <img src={ticket.img_url} alt="Photo by Drew Beamer" className="rounded-md object-cover aspect-video" />
                 </AspectRatio>
 
                 <CardDescription>¥{ticket.price}</CardDescription>
