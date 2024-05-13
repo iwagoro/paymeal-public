@@ -1,45 +1,33 @@
 "use client";
 
 import { useState, createContext, useEffect } from "react";
-import { getMenus } from "../../../lib/db-util";
-import { menuProps, userDataProps } from "../../../lib/interface";
-import { app } from "../../../lib/firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getUserData } from "../../../lib/db-util";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged, getIdToken } from "firebase/auth";
 import { useRouter } from "next/navigation";
-
+import { userProps } from "@/lib/types";
+import { getUserEmail } from "@/lib/appUtils";
 export const AppContext = createContext(
     {} as {
-        user: userDataProps;
-        setUser: React.Dispatch<React.SetStateAction<userDataProps>>;
-        menus: menuProps[];
-        setMenus: React.Dispatch<React.SetStateAction<menuProps[]>>;
+        user: userProps;
     }
 );
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<userDataProps>({} as userDataProps);
-    const [menus, setMenus] = useState<menuProps[]>([]);
+    const [user, setUser] = useState<userProps>({} as userProps);
     const router = useRouter();
 
     useEffect(() => {
-        const auth = getAuth(app);
-        const fetchData = async () => {
-            const unsubscribe = onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    const userData = await getUserData(user.email || "");
-                    setUser(userData as userDataProps);
-                    router.push("/home");
-                } else {
-                    setUser({} as userDataProps);
-                    router.push("/login");
-                }
-            });
-            return unsubscribe;
-        };
-        fetchData();
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const token = await getIdToken(user);
+                const email = await getUserEmail(token);
+                setUser({ email, token });
+            } else {
+                router.push("/login");
+            }
+        });
     }, []);
 
-    const contextValue = { user, setUser, menus, setMenus };
+    const contextValue = { user };
     return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
 };
