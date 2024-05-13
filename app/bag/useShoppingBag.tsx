@@ -48,6 +48,7 @@ export function useShoppingBag() {
     const getPayment = async () => {
         const link = await purchase(user.token, cartId);
         console.log(link);
+        window.location.href = link;
     };
 
     //!アイテムの追加

@@ -1,4 +1,4 @@
-const url = "http://localhost:8000";
+const url = "http://172.16.1.241:8000";
 import { universalHandler } from "./handler";
 
 //? ユーザ関連のAPI--------------------------------------------
@@ -143,4 +143,17 @@ export const place_order = async (token: string, order_id: string) => {
         },
     };
     return await universalHandler("POST", `${url}/order/${order_id}`, {}, config);
+};
+
+//?　管理者関連のAPI--------------------------------------------
+
+export const addTicket = async (token: string, ticket: any) => {
+    if (!token) return null;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    console.log(ticket);
+    return await universalHandler("POST", `${url}/tickets`, ticket, config);
 };
