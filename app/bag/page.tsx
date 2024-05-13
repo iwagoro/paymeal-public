@@ -23,7 +23,7 @@ export default function Home() {
             <CardContent className="flex flex-col gap-5">
                 <Separator orientation="horizontal" className="w-full" />
                 <div className="flex justify-between items-center">
-                    <CardTitle>Total</CardTitle>
+                    <CardTitle>合計</CardTitle>
                     <CardTitle>{total}円</CardTitle>
                 </div>
             </CardContent>

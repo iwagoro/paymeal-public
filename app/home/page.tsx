@@ -17,7 +17,7 @@ export default function Home() {
 
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle>Information</CardTitle>
+                    <CardTitle>お知らせ</CardTitle>
                     <CardDescription>Here are some of the information </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -32,7 +32,7 @@ export default function Home() {
             </Card>
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle>Popular Menu</CardTitle>
+                    <CardTitle>人気のメニュー</CardTitle>
                     <CardDescription>Here are some of the most popular menus in terms of weekly sales</CardDescription>
                 </CardHeader>
 

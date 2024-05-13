@@ -7,7 +7,7 @@ export default function Menu() {
         <div className="w-full flex flex-col justify-start items-center gap-5">
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle>Popular Menu</CardTitle>
+                    <CardTitle>人気のメニュー</CardTitle>
                     <CardDescription>Here are some of the most popular menus in terms of weekly sales</CardDescription>
                 </CardHeader>
 
@@ -23,7 +23,7 @@ export default function Menu() {
             </Card>
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle>Menus</CardTitle>
+                    <CardTitle>メニュー</CardTitle>
                     <CardDescription>Here are some of menus</CardDescription>
                 </CardHeader>
                 <Tickets />
