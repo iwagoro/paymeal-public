@@ -25,7 +25,7 @@ export const Drawer = () => {
                         }}
                     >
                         {theme === "dark" ? <MdBrightness5 size={24} /> : <MdBrightness2 size={24} />}
-                        <Large>Change Color</Large>
+                        <Large>色を変える</Large>
                     </div>
                 </SheetClose>
                 <SheetClose className="w-full flex flex-col gap-4  pb-5 border-b-[1px] border-border">
@@ -37,7 +37,7 @@ export const Drawer = () => {
                         }}
                     >
                         <MdLogout size={24} />
-                        <Large>Log out</Large>
+                        <Large>ログアウト</Large>
                     </div>
                 </SheetClose>
             </SheetContent>

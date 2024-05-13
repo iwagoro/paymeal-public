@@ -32,7 +32,7 @@ export const registerUser = async (email: string, password: string) => {
             if (status) {
                 window.location.href = "/home";
             } else {
-                alert("error adding user");
+                alert("アカウントを作成する際にエラーが発生しました");
             }
         })
         .catch((error: any) => handleAuthError(error));
@@ -45,7 +45,7 @@ export const loginUser = async (email: string, password: string) => {
             window.location.href = "/home";
         })
         .catch((error: any) => {
-            alert("error logging in");
+            alert("ログインの際にエラーが発生しました");
         });
 };
 
@@ -53,7 +53,7 @@ export const loginUser = async (email: string, password: string) => {
 export const logOut = async () => {
     auth.signOut()
         .then(() => {
-            alert("logged out ");
+            alert("ログアウトに成功しました");
         })
         .catch((error) => {
             alert("error logging out");

@@ -26,9 +26,9 @@ export default function Orders() {
         <div className="w-full flex flex-col justify-start items-center gap-5">
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle className="text-primary">{isAvailable ? "Order available" : "Order not available"}</CardTitle>
+                    <CardTitle className="text-primary">{isAvailable ? "注文可能です" : "注文不可能です"}</CardTitle>
 
-                    <CardDescription>Orders can be placed from 11:00 a.m. to 1:00 p.m.</CardDescription>
+                    <CardDescription>午前11時から午後1時までの間に注文できます</CardDescription>
                 </CardHeader>
             </Card>
             {Array.isArray(order) &&
