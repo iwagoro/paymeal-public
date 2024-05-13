@@ -1,55 +1,61 @@
-"use client";
-import { getAuth } from "firebase/auth";
-import { app } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { toast } from "sonner";
+import { auth } from "@/lib/firebase";
+import { createUserWithEmailAndPassword, getIdToken, signInWithEmailAndPassword } from "firebase/auth";
+import { addUser } from "./appUtils";
 
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-export const createUserDoc = (user: any) => {
-    const docRef = doc(db, "user", user);
-    setDoc(docRef, {
-        email: user,
-        orders: [],
-        chats: [],
-        bag: [],
-    });
+//* エラーハンドリング関数
+const handleAuthError = (error: any) => {
+    switch (error.code) {
+        case "auth/email-already-in-use":
+            alert("このメールアドレスは既に使用されています。");
+            break;
+        case "auth/invalid-email":
+            alert("無効なメールアドレスです。");
+            break;
+        case "auth/operation-not-allowed":
+            alert("メール/パスワードアカウントが有効になっていません。");
+            break;
+        case "auth/weak-password":
+            alert("パスワードが弱すぎます。");
+            break;
+        default:
+            alert("不明なエラーが発生しました。もう一度お試しください。");
+            break;
+    }
 };
 
-export const createUser = async (email: string, password: string) => {
+//! ユーザーの登録
+export const registerUser = async (email: string, password: string) => {
     createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential: any) => {
-            window.location.href = "/home";
-            createUserDoc(email);
-            toast("Success", { description: "You have successfully created an account" });
+        .then(async (userCredential: any) => {
+            const token = await getIdToken(userCredential.user);
+            const status = await addUser(token);
+            if (status) {
+                window.location.href = "/home";
+            } else {
+                alert("error adding user");
+            }
         })
-        .catch((error: any) => {
-            console.log(error);
-            toast("Opps!", { description: "An error occured" });
-        });
+        .catch((error: any) => handleAuthError(error));
 };
 
+//! ユーザーのログイン
 export const loginUser = async (email: string, password: string) => {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential: any) => {
             window.location.href = "/home";
-            toast("Success", { description: "You have successfully created an account" });
         })
         .catch((error: any) => {
-            toast("Opps!", { description: "An error occured" });
+            alert("error logging in");
         });
 };
 
+//! ユーザーのログアウト
 export const logOut = async () => {
     auth.signOut()
         .then(() => {
-            console.log("logged out ");
-            toast("Logged out", { description: "success" });
+            alert("logged out ");
         })
         .catch((error) => {
-            console.log("error logging out");
-            toast("Error logging out", { description: "error" });
+            alert("error logging out");
         });
 };
