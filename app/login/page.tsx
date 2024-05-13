@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { createUser, loginUser } from "@/lib/auth";
+import { registerUser, loginUser } from "@/lib/auth";
 
 export default function Login() {
     const signinHandler = async () => {
@@ -22,7 +22,7 @@ export default function Login() {
         const email = document.getElementById("signup-email") as HTMLInputElement;
         const password = document.getElementById("signup-password") as HTMLInputElement;
         if (email.value !== "" && password.value !== "") {
-            createUser(email.value, password.value);
+            registerUser(email.value, password.value);
         } else {
             toast("Opps!", { description: "Please fill in all fields" });
         }

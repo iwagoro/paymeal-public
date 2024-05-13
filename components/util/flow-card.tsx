@@ -8,7 +8,7 @@ export const FlowCard1 = ({ children }: { children: React.ReactNode[] }) => {
                 <CarouselContent>
                     {children.map((_, index) => (
                         <CarouselItem key={index} className="">
-                            <Card className={`aspect-[2/1] max-w-2xl`}>
+                            <Card className={`aspect-[2/1] `}>
                                 <CardContent className="flex h-full   w-full items-center justify-center p-6">{children[index]}</CardContent>
                             </Card>
                         </CarouselItem>

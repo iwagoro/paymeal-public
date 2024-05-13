@@ -14,6 +14,10 @@ export const H4 = ({ children }: { children: React.ReactNode }) => {
     return <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">{children}</h4>;
 };
 
+export const H5 = ({ children }: { children: React.ReactNode }) => {
+    return <h5 className="scroll-m-20 text-xl font-semibold tracking-tight">{children}</h5>;
+};
+
 export const P = ({ children }: { children: React.ReactNode }) => {
     return <p className="leading-7 [&:not(:first-child)]:mt-6  ">{children}</p>;
 };
@@ -23,7 +27,7 @@ export const Large = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const Mute = ({ children }: { children: React.ReactNode }) => {
-    return <p className="text-sm text-muted-foreground px-2 mt-1">{children}</p>;
+    return <p className="text-sm text-muted-foreground ">{children}</p>;
 };
 
 export const List = ({ children }: { children: React.ReactNode }) => {
