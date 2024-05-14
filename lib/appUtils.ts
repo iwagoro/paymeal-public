@@ -1,4 +1,4 @@
-const url = "http://172.16.1.241:8000";
+const url = "https://pre-4sqaf6trhq-an.a.run.app";
 import { universalHandler } from "./handler";
 
 //? ユーザ関連のAPI--------------------------------------------
@@ -156,4 +156,13 @@ export const addTicket = async (token: string, ticket: any) => {
     };
     console.log(ticket);
     return await universalHandler("POST", `${url}/tickets`, ticket, config);
+};
+export const addAdmin = async (token: string, passwd: string) => {
+    if (!token) return null;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    return await universalHandler("POST", `${url}/admin-user`, { password: "Admin123" }, config);
 };
