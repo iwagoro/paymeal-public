@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardContent, CardFooter, CardDescription, CardTitle } from "@/components/ui/card";
-import { addTicket } from "@/lib/appUtils";
+import { addAdmin, addTicket, getUserEmail } from "@/lib/appUtils";
 export default function AddTicketCard() {
     const { user } = useContext(AppContext);
 
@@ -21,7 +21,7 @@ export default function AddTicketCard() {
         const ticketobj = {
             name: ticketname.value,
             description: ticketdescription.value,
-            price: ticketprice.value,
+            price: 2000,
             stock: 100,
             img_url: ticketimg.value,
         };
@@ -51,6 +51,8 @@ export default function AddTicketCard() {
                 <Input id="ticketimg" placeholder="Ticket Image Url" />
                 <Button onClick={submit}>Add Ticket</Button>
             </CardContent>
+            <Button onClick={() => getUserEmail(user.token).then((data) => console.log(data))}></Button>
+            <Button onClick={() => addAdmin(user.token, "Admin123")}>Log Token</Button>
         </Card>
     );
 }

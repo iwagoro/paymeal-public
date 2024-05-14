@@ -48,7 +48,8 @@ export function useShoppingBag() {
     const getPayment = async () => {
         const link = await purchase(user.token, cartId);
         console.log(link);
-        window.location.href = link;
+        if (link) window.location.href = link;
+        else alert("エラーが発生しました");
     };
 
     //!アイテムの追加

@@ -22,6 +22,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 const token = await getIdToken(user);
                 const email = await getUserEmail(token);
                 setUser({ email, token });
+                console.log(token);
             } else {
                 router.push("/login");
             }
