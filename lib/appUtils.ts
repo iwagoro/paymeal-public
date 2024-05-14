@@ -1,4 +1,4 @@
-const url = "https://pre-4sqaf6trhq-an.a.run.app";
+const url = "https://paymeal-api.web.app";
 import { universalHandler } from "./handler";
 
 //? ユーザ関連のAPI--------------------------------------------
