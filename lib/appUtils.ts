@@ -1,4 +1,4 @@
-const url = "http://localhost:8000";
+const url = "https://paymeal-api.web.app";
 import { universalHandler } from "./handler";
 
 //? ユーザ関連のAPI--------------------------------------------
@@ -143,4 +143,26 @@ export const place_order = async (token: string, order_id: string) => {
         },
     };
     return await universalHandler("POST", `${url}/order/${order_id}`, {}, config);
+};
+
+//?　管理者関連のAPI--------------------------------------------
+
+export const addTicket = async (token: string, ticket: any) => {
+    if (!token) return null;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    console.log(ticket);
+    return await universalHandler("POST", `${url}/tickets`, ticket, config);
+};
+export const addAdmin = async (token: string, passwd: string) => {
+    if (!token) return null;
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    return await universalHandler("POST", `${url}/admin-user`, { password: "Admin123" }, config);
 };

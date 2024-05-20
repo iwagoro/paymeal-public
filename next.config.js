@@ -8,6 +8,7 @@ const nextConfig = {
         domains: ["blogger.googleusercontent.com"],
     },
     reactStrictMode: false, // Strict Modeを無効にする
+    output: "standalone",
 };
 
 module.exports = nextConfig;
