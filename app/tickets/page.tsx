@@ -1,33 +1,50 @@
 "use client";
-import { FlowCard2 } from "@/components/util/flow-card";
-import { Tickets } from "./tickets";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-export default function Menu() {
-    return (
-        <div className="w-full flex flex-col justify-start items-center gap-5">
-            <Card className="w-full">
-                <CardHeader>
-                    <CardTitle>Popular Menu</CardTitle>
-                    <CardDescription>Here are some of the most popular menus in terms of weekly sales</CardDescription>
-                </CardHeader>
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Ellipsis } from "lucide-react";
+import useTicket from "./useTicket";
 
-                <CardContent>
-                    <FlowCard2>
-                        {Array.from({ length: 8 }).map((_, index) => (
-                            <span key={index} className="text-4xl font-semibold">
-                                {index + 1}
-                            </span>
-                        ))}
-                    </FlowCard2>
-                </CardContent>
-            </Card>
-            <Card className="w-full">
-                <CardHeader>
-                    <CardTitle>Menus</CardTitle>
-                    <CardDescription>Here are some of menus</CardDescription>
-                </CardHeader>
-                <Tickets />
-            </Card>
+export default function Home() {
+    const { tags, selectedTickets, selectedTag, setSelectedTag, addToCart } = useTicket();
+
+    return (
+        <div className="w-full flex flex-col justify-start items-start gap-5 ">
+            <Tabs defaultValue="all" className="w-full">
+                <TabsList className="w-fit">
+                    {tags.map((tag, index) => (
+                        <TabsTrigger key={index} value={tag.name} onClick={() => setSelectedTag(tag.name)}>
+                            {tag.name}
+                        </TabsTrigger>
+                    ))}
+                </TabsList>
+                <TabsContent value={selectedTag} className="w-full grid grid-cols-2 sm:grid-cols-3  gap-3 pt-3">
+                    {selectedTickets.map((ticket, index) => (
+                        <Card key={ticket.id} className="h-fit">
+                            <img src={ticket.img_url} alt={ticket.name} className="w-full aspect-video object-cover" />
+                            <CardHeader>
+                                <CardTitle className="font-medium">{ticket.name}</CardTitle>
+                                <CardDescription>{ticket.description}</CardDescription>
+                            </CardHeader>
+
+                            <CardFooter className="justify-between">
+                                <Badge>¥{ticket.price}</Badge>
+                                <CardDescription>{ticket.stock} in stock</CardDescription>
+                            </CardFooter>
+                            <CardFooter className="w-full gap-5 justify-between">
+                                <Button className=" w-fit" variant="outline" onClick={() => addToCart(ticket.id)}>
+                                    <Plus className="mr-2" />
+                                    ADD
+                                </Button>
+                                <Button variant="ghost" size="icon">
+                                    <Ellipsis />
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    ))}
+                </TabsContent>
+            </Tabs>
         </div>
     );
 }
