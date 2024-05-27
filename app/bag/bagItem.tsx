@@ -49,7 +49,7 @@ export function BagItem({ item, add, sub, del }: { item: any; add: (id: number) 
                         del(item.ticket.id);
                     }}
                 >
-                    <MdOutlineClose size={24} /> delete ticket
+                    <MdOutlineClose size={24} /> 食券を削除する
                 </Button>
             </CardFooter>
         </Card>

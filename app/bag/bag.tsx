@@ -10,7 +10,7 @@ export default function Bag() {
     return (
         <CardContent className="flex flex-col gap-5">
             <Separator orientation="horizontal" className="w-full" />
-            <CardTitle>Tickets</CardTitle>
+            <CardTitle>食券</CardTitle>
             {Array.isArray(cart) && cart.map((item, index) => <BagItem key={index} item={item} add={add} sub={sub} del={del} />)}
             {Array.isArray(cart) && cart.length === 0 && <div className="h-20  flex items-center justify-center">No items in your bag</div>}
         </CardContent>

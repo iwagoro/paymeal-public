@@ -7,7 +7,7 @@ export default function Home() {
         <div className="w-full flex flex-col justify-start items-start gap-5 ">
             <Card>
                 <CardHeader>
-                    <CardTitle>Welcom Back!</CardTitle>
+                    <CardTitle>Welcome Back!</CardTitle>
                     <CardDescription>
                         This application is only a test version. In the meantime, we plan to support Paypay payments. Also, the authentication function has not yet been implemented, so it can only be
                         used by test users. I intend to specify the domain with tokuyama.kosen-ac.jp using the email address authentication function of Firebase Authorization sooner or later.

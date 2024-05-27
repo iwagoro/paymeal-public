@@ -22,7 +22,7 @@ export function useMenu() {
         if (status) {
             alert("カートに追加しました");
         } else {
-            alert("エラーが発生しました");
+            alert("カートにアイテムを追加する時にエラーが発生しました");
         }
     };
 

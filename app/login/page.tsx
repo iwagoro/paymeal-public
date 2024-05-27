@@ -29,11 +29,11 @@ export default function Login() {
     };
 
     return (
-        <div className="w-full h-full flex justify-center items-center ">
+        <div className="w-full flex justify-center items-center">
             <div className=" max-w-md w-full h-full flex flex-col justify-center items-center gap-10 ">
                 <div className="w-full flex  flex-col justify-center items-center">
                     <H3>アカウントを新規作成</H3>
-                    <Mute>Enter your email below to create your account</Mute>
+                    <Mute>まだアカウントを持っていない場合</Mute>
                 </div>
                 <div className="w-full flex  flex-col justify-center items-center gap-5">
                     <Input id="signup-email" type="text" placeholder="i00@tokuyama.kosen-ac.jp"></Input>
@@ -49,7 +49,7 @@ export default function Login() {
                 </Separator>
                 <div className="w-full flex  flex-col justify-center items-center">
                     <H3>ログイン</H3>
-                    <Mute>Alrealy Have An Acount?</Mute>
+                    <Mute>すでにアカウントを持っている場合</Mute>
                 </div>
                 <div className="w-full flex  flex-col justify-center items-center gap-5 ">
                     <Input id="signin-email" type="text" placeholder="i00@tokuyama.kosen-ac.jp"></Input>
