@@ -12,9 +12,9 @@ export const getCart = async (token: string) => {
             },
         };
         const res = await axios.get(`${url}/cart`, config);
-        return res.data.content.cart;
+        return res.data.cart;
     } catch {
-        toast.error("Failed to get cart", { style: { color: "#FFFFFF", background: "#FF0000" } });
+        return [];
     }
 };
 
