@@ -12,7 +12,7 @@ export const getUserInfo = async (token: string) => {
             },
         };
         const res = await axios.get(`${url}/user`, config);
-        return res.data.content.user;
+        return res.data.user;
     } catch {
         toast.error("Failed to get user info", { style: { color: "#FFFFFF", background: "#FF0000" } });
     }
@@ -27,9 +27,9 @@ export const getUserUsage = async (token: string) => {
             },
         };
         const res = await axios.get(`${url}/user/usage`, config);
-        return res.data.content.usage;
+        return res.data.total;
     } catch {
-        toast.error("Failed to get usage", { style: { color: "#FFFFFF", background: "#FF0000" } });
+        return 0;
     }
 };
 
