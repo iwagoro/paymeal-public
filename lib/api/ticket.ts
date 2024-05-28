@@ -6,9 +6,9 @@ const url = process.env.NEXT_PUBLIC_API_URL;
 export const getAllTickets = async () => {
     try {
         const res = await axios.get(`${url}/tickets`);
-        return res.data.content.tickets || [];
+        return res.data.tickets;
     } catch {
-        toast.error("Failed to get tickets", { style: { color: "#FFFFFF", background: "#FF0000" } });
+        return [];
     }
 };
 
@@ -16,19 +16,19 @@ export const getAllTickets = async () => {
 export const getTags = async () => {
     try {
         const res = await axios.get(`${url}/tags`);
-        return res.data.content.tags || [];
+        return res.data.tags;
     } catch {
-        toast.error("Failed to get tags", { style: { color: "#FFFFFF", background: "#FF0000" } });
+        return [];
     }
 };
 
 //! チケットとタグの関連を取得する
 export const getRelations = async () => {
     try {
-        const res = await axios.get(`${url}/tickets/relation`);
-        return res.data.content.relations || [];
+        const res = await axios.get(`${url}/relations`);
+        return res.data.relations;
     } catch {
-        toast.error("Failed to get tags with ticket", { style: { color: "#FFFFFF", background: "#FF0000" } });
+        return [];
     }
 };
 

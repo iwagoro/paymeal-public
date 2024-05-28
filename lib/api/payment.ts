@@ -13,7 +13,7 @@ export const purchase = async (token: string, order_id: string) => {
         };
         const res = await axios.post(`${url}/payment/create/${order_id}`, {}, config);
 
-        window.open(res.data.content.url, "_blank");
+        window.open(res.data.url, "_blank");
     } catch {
         toast.error("Failed to purchase", { style: { color: "#FFFFFF", background: "#FF0000" } });
     }

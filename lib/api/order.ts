@@ -12,9 +12,9 @@ export const getOrders = async (token: string) => {
             },
         };
         const res = await axios.get(`${url}/orders/purchased`, config);
-        return res.data.content.orders;
+        return res.data.orders;
     } catch {
-        toast.error("Failed to get orders", { style: { color: "#FFFFFF", background: "#FF0000" } });
+        return [];
     }
 };
 
@@ -27,9 +27,10 @@ export const getLatestOrder = async (token: string) => {
             },
         };
         const res = await axios.get(`${url}/orders/latest`, config);
-        return res.data.content.order;
+        console.log(res);
+        return res.data.order;
     } catch {
-        toast.error("Failed to get latest order", { style: { color: "#FFFFFF", background: "#FF0000" } });
+        return {};
     }
 };
 
