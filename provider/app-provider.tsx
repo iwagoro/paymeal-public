@@ -42,5 +42,5 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     const contextValue = { user, setUser };
-    return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
+    return <AppContext.Provider value={contextValue}>{isLogin ? children : <div>loading...</div>}</AppContext.Provider>;
 };
