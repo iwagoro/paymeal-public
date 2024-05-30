@@ -24,13 +24,13 @@ export default function Home() {
                         <Card key={ticket.id} className="h-fit">
                             <img src={ticket.img_url} alt={ticket.name} className="w-full aspect-video object-cover" />
                             <CardHeader>
-                                <CardTitle className="font-medium">{ticket.name}</CardTitle>
+                                <CardTitle>{ticket.name}</CardTitle>
                                 <CardDescription>{ticket.description}</CardDescription>
                             </CardHeader>
 
                             <CardFooter className="justify-between">
                                 <Badge>¥{ticket.price}</Badge>
-                                <CardDescription>{ticket.stock} in stock</CardDescription>
+                                <Badge variant="outline">{ticket.stock} in stock</Badge>
                             </CardFooter>
                             <CardFooter className="w-full gap-5 justify-between">
                                 <Button className=" w-fit" variant="outline" onClick={() => addToCart(ticket.id)}>
