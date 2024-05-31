@@ -13,21 +13,19 @@ export default function Home() {
     return (
         <div className="w-full flex flex-col justify-start items-start gap-5 ">
             <div className="w-full flex gap-5">
-                <Card className="flex-[2]">
+                <Card className="flex-[3]">
                     <CardHeader>
                         <CardTitle>Your Cart</CardTitle>
                         <CardDescription>ID : {cart?.id}</CardDescription>
                         <Badge className="w-fit">{cart?.status}</Badge>
                     </CardHeader>
                 </Card>
-                <Card className="flex-1">
+                <Card className="flex-[2]">
                     <CardHeader>
                         <CardTitle>Summary</CardTitle>
-                    </CardHeader>
-                    <CardContent>
                         <CardDescription>Total Items : {cart?.items.length}</CardDescription>
                         <CardDescription>Total Price : ¥{cart?.total}</CardDescription>
-                    </CardContent>
+                    </CardHeader>
                 </Card>
             </div>
             <Card className="w-full">
