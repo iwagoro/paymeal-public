@@ -29,7 +29,7 @@ export default function Home() {
             </CardContent>
             <CardFooter>
                 <Button className="w-full" variant={Array.isArray(cart) && cart.length === 0 ? "outline" : "default"} onClick={() => cart.length !== 0 && getPayment()}>
-                    Checkout Now
+                    支払いを行う
                 </Button>
             </CardFooter>
         </Card>

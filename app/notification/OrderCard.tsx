@@ -19,7 +19,7 @@ export default function OrderCard({ user, order, orderId, orderDate, orderStatus
         if (data) {
             alert("注文が完了しました");
         } else {
-            alert("エラーが発生しました");
+            alert("商品を注文する時にエラーが発生しました");
         }
     };
 

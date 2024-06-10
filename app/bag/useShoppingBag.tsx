@@ -49,7 +49,7 @@ export function useShoppingBag() {
         const link = await purchase(user.token, cartId);
         console.log(link);
         if (link) window.location.href = link;
-        else alert("エラーが発生しました");
+        else alert("決済リンクの取得時にエラーが発生しました");
     };
 
     //!アイテムの追加
@@ -64,7 +64,7 @@ export function useShoppingBag() {
                 setTotal(total + item.ticket.price);
             }
         } else {
-            alert("エラーが発生しました");
+            alert("アイテムの追加時にエラーが発生しました");
         }
     };
 
@@ -84,7 +84,7 @@ export function useShoppingBag() {
                 }
             }
         } else {
-            alert("エラーが発生しました");
+            alert("エラーが発生しましたa");
         }
     };
 
@@ -99,7 +99,7 @@ export function useShoppingBag() {
             }
             setCart(cart.filter((item: any) => item.ticket.id !== ticket_id));
         } else {
-            alert("エラーが発生しました");
+            alert("エラーが発生しましたb");
         }
     };
 
