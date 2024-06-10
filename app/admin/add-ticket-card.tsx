@@ -45,10 +45,10 @@ export default function AddTicketCard() {
                 <Input id="ticketname" placeholder="Ticket Name" />
                 <Label>Enter Ticket Description</Label>
                 <Input id="ticketdescription" placeholder="Ticket Description" />
-                <Label>Enter Ticket Price</Label>
-                <Input id="ticketprice" placeholder="Ticket Price" />
-                <Label>Enter Ticket Image Url</Label>
-                <Input id="ticketimg" placeholder="Ticket Image Url" />
+                <Label>値段</Label>
+                <Input id="ticketprice" placeholder="値段を入力" />
+                <Label>画像のURL</Label>
+                <Input id="ticketimg" placeholder="画像のURLを入力" />
                 <Button onClick={submit}>Add Ticket</Button>
             </CardContent>
             <Button onClick={() => getUserEmail(user.token).then((data) => console.log(data))}></Button>
