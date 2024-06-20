@@ -1,79 +1,134 @@
 "use client";
 
 import { useState, useEffect, useContext } from "react";
-import { OrderType } from "@/lib/types";
-import { addTicketToCart, getCart, subTicketFromCart } from "@/lib/api/cart";
-import { completeOrder, deleteCart, purchase } from "@/lib/api/payment";
+import { CartType } from "@/lib/types";
 import { AppContext } from "@/provider/app-provider";
+import { apiRequest } from "@/lib/apiHandler";
+import { toast } from "sonner";
 
 export default function useCart() {
     const { user } = useContext(AppContext);
-    const [cart, setCart] = useState<OrderType | null>();
+    const [cart, setCart] = useState<CartType>({
+        id: "",
+        total: 0,
+        status: "",
+        items: [],
+        purchase_date: null,
+        order_date: null,
+        number: 0,
+    });
 
-    //! カートの取得
-    useEffect(() => {
-        user.token &&
-            getCart(user.token).then((data) => {
+    const getCart = async () => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/cart/",
+            token: user.token,
+        })
+            .then((data) => {
                 setCart(data);
+            })
+            .catch((error) => {
+                toast.error("Failed to add to cart");
             });
-    }, [user]);
+    };
 
+    const addToCart = async (ticket_id: number) => {
+        apiRequest({
+            method: "POST",
+            endpoint: "/api/cart/",
+            token: user.token,
+            params: { ticket_id: ticket_id },
+        })
+            .then(() => {
+                getCart();
+            })
+            .catch((error) => {
+                toast.error("Failed to add to cart");
+            });
+    };
+
+    const removeFromCart = async (ticket_id: number) => {
+        apiRequest({
+            method: "DELETE",
+            endpoint: "/api/cart/",
+            token: user.token,
+            params: { ticket_id: ticket_id },
+        })
+            .then(() => {
+                getCart();
+            })
+            .catch((error) => {
+                toast.error("Failed to add to cart");
+            });
+    };
+
+    const purchaseCart = async () => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/payment/",
+            token: user.token,
+            params: { order_id: cart.id },
+        })
+            .then((data) => {
+                window.location.href = data.url;
+            })
+            .catch((error) => {
+                toast.error("Failed to purchase cart");
+            });
+    };
+
+    const deleteLink = async () => {
+        apiRequest({
+            method: "DELETE",
+            endpoint: "/api/payment/",
+            token: user.token,
+            params: { order_id: cart.id },
+        })
+            .then(() => {
+                toast.success("QR code deleted successfully");
+            })
+            .catch((error) => {
+                toast.error("Failed to delete QR code");
+            });
+    };
+
+    const confirmPayment = async () => {
+        apiRequest({
+            method: "PATCH",
+            endpoint: "/api/payment/",
+            token: user.token,
+            params: { order_id: cart.id },
+        })
+            .then(() => {
+                setCart({
+                    id: "",
+                    total: 0,
+                    status: "",
+                    items: [],
+                    purchase_date: null,
+                    order_date: null,
+                    number: 0,
+                });
+            })
+            .catch((error) => {
+                toast.error("Failed to complete payment");
+            });
+    };
+
+    //!　カートを取得する
     useEffect(() => {
-        user.token && cart?.status === "processing" && completeOrder(user.token, cart.id).then((state) => setCart(null));
+        user.token && getCart();
+    }, [user.token]);
+
+    //!　５回５秒ごとに購入確認
+    useEffect(() => {
+        if (cart.status === "processing") {
+            const interval = setInterval(() => {
+                confirmPayment();
+            }, 5000);
+            return () => clearInterval(interval);
+        }
     }, [cart]);
 
-    const increaseQuantity = async (id: number) => {
-        addTicketToCart(user.token, id).then(() => {
-            setCart((prev) => {
-                if (prev) {
-                    const newItems = prev.items.map((item) => {
-                        if (item.ticket.id === id) {
-                            return { ticket: item.ticket, quantity: item.quantity + 1 };
-                        }
-                        return item;
-                    });
-                    const newTotal = newItems.reduce((sum, item) => sum + item.quantity * item.ticket.price, 0);
-                    return { ...prev, items: newItems, total: newTotal };
-                }
-                return prev;
-            });
-        });
-    };
-
-    const decreaseQuantity = async (id: number) => {
-        subTicketFromCart(user.token, id).then(() => {
-            setCart((prev) => {
-                if (prev) {
-                    const newItems = prev.items
-                        .map((item) => {
-                            if (item.ticket.id === id) {
-                                return { ticket: item.ticket, quantity: item.quantity - 1 };
-                            }
-                            return item;
-                        })
-                        .filter((item) => item.quantity > 0);
-                    const newTotal = newItems.reduce((sum, item) => sum + item.quantity * item.ticket.price, 0);
-                    return { ...prev, items: newItems, total: newTotal };
-                }
-                return prev;
-            });
-        });
-    };
-
-    //! 決済リンクを作成する
-    const purchaseCart = async () => {
-        cart && user.token && purchase(user.token, cart.id);
-    };
-
-    //! 決済リンクを削除する
-    const deleteLink = async () => {
-        cart && user.token && deleteCart(user.token, cart.id);
-    };
-
-    //! 購入確認
-    const confirmPurchase = async () => {
-        cart && user.token && completeOrder(user.token, cart.id);
-    };
-
-    return { cart, purchaseCart, confirmPurchase, deleteLink, increaseQuantity, decreaseQuantity };
+    return { cart, purchaseCart, deleteLink, confirmPayment, addToCart, removeFromCart };
 }

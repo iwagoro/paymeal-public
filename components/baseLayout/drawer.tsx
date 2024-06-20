@@ -35,7 +35,7 @@ export const Drawer = () => {
                     <SheetTitle className="text-left">User detail</SheetTitle>
                     <SheetDescription>{user && user.email}</SheetDescription>
                 </SheetHeader>
-                <SheetClose className="w-full flex flex-col gap-4  pb-5 border-b-[1px] border-border">
+                <SheetClose className="w-full flex  gap-4  pb-5 border-b-[1px] border-border" asChild>
                     <div
                         className={`flex gap-5 items-center  bg-transparent curosr-pointer  ${theme === "dark" ? "text-white" : "text-black"}`}
                         onClick={() => {
@@ -46,7 +46,7 @@ export const Drawer = () => {
                         <Large>Change Color</Large>
                     </div>
                 </SheetClose>
-                <SheetClose className="w-full flex flex-col gap-4  pb-5 border-b-[1px] border-border">
+                <SheetClose className="w-full flex gap-4  pb-5 border-b-[1px] border-border" asChild>
                     <div
                         className={`flex gap-5 items-center  bg-transparent curosr-pointer`}
                         onClick={() => {

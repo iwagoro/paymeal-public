@@ -1,11 +1,10 @@
-//? user
-export type userType = {
-    email: string;
+export type UserType = {
     id: string;
+    email: string;
     token: string;
-    img_url: string | null;
+    notification_token: string | null;
 };
-//? ticket
+
 export type TicketType = {
     id: number;
     name: string;
@@ -13,12 +12,15 @@ export type TicketType = {
     img_url: string;
     price: number;
     stock: number;
+    sales: number;
+    tags: string[];
     contents: string[];
 };
 
-export type RelationType = {
-    ticket_id: number;
-    tag_id: number;
+export type TicketStockType = {
+    id: number;
+    stock: number;
+    unit_sales: number;
 };
 
 export type TagType = {
@@ -26,25 +28,29 @@ export type TagType = {
     name: string;
 };
 
-export type TicketFormValues = {
-    name: string;
-    description: string;
-    img_url: string;
-    price: number;
-    stock: number;
-    contents: { value: string }[];
+export type CartType = {
+    id: string;
+    status: string;
+    purchase_date: Date | null;
+    order_date: Date | null;
+    items: OrderDetailType[];
+    number: number;
+    total: number;
 };
 
-//? cart
 export type OrderType = {
     id: string;
     status: string;
-    items: {
-        ticket: TicketType;
-        quantity: number;
-    }[];
-
-    date: string;
+    purchase_date: Date;
+    order_date: Date;
     number: number;
+    items: OrderDetailType[];
     total: number;
+};
+
+export type OrderDetailType = {
+    ticket_id: number;
+    ticket_name: string;
+    ticket_price: number;
+    quantity: number;
 };
