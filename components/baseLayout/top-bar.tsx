@@ -9,8 +9,9 @@ export const TopBar = () => {
                         <h2 className="scroll-m-20  text-[24px] font-semibold tracking-tight first:mt-0">Paymeal</h2>
                     </div>
                 </Link>
-
-                <Drawer />
+                <div className="w-fit flex gap-5 items-center">
+                    <Drawer />
+                </div>
             </div>
         </div>
     );

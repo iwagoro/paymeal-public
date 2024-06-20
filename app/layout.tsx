@@ -5,6 +5,7 @@ import { BottomBar } from "@/components/baseLayout/bottom-bar";
 import { ThemeProvider } from "@/provider/theme-provider";
 import { AppProvider } from "@/provider/app-provider";
 import { Toaster } from "sonner";
+
 import "./globals.css";
 
 const inter = Inter({
