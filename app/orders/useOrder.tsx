@@ -1,40 +1,65 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, use } from "react";
 import { OrderType } from "@/lib/types";
 import { AppContext } from "@/provider/app-provider";
-import { getOrders, placeOrder, getLatestOrder } from "@/lib/api/order";
+import { apiRequest } from "@/lib/apiHandler";
 import { toast } from "sonner";
+
 export default function useOrder() {
     const { user } = useContext(AppContext);
     const [orders, setOrders] = useState<OrderType[]>([]);
-    const [stateNames, setStateNames] = useState<string[]>(["purchased", "ordered", "completed"]);
-    const [selectedState, setSelectedState] = useState<string>("purchased");
-    const [selectedOrders, setSelectedOrders] = useState<OrderType[]>([]);
     const [latestOrder, setLatestOrder] = useState<OrderType | null>(null);
-    const [isLatestOrderExpired, setIsLatestOrderExpired] = useState<boolean>(false);
+    const [status, setStatus] = useState<string>("purchased");
 
-    //! 注文の取得
-    useEffect(() => {
-        user.token &&
-            Promise.all([getOrders(user.token), getLatestOrder(user.token)]).then(([orders, latestOrder]) => {
-                setOrders(orders);
-                setLatestOrder(latestOrder);
+    //! すべての注文を取得
+    const getOrders = async () => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/orders/all/",
+            token: user.token,
+            params: { status: status },
+        }).then((data) => {
+            setOrders(data);
+        });
+    };
+
+    //! 最新の注文を取得
+    const getLatestOrder = async () => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/orders/latest",
+            token: user.token,
+        }).then((data) => {
+            setLatestOrder(data);
+        });
+    };
+
+    //! 注文を作成
+    const createOrder = async (id: string) => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/orders/",
+            token: user.token,
+            params: { order_id: id },
+        })
+            .then((data) => {
+                toast.success("Order created successfully");
+            })
+            .catch((error) => {
+                toast.error("Failed to create order");
             });
+    };
+
+    useEffect(() => {
+        if (user) {
+            getOrders();
+            getLatestOrder();
+        }
     }, [user]);
 
     useEffect(() => {
-        orders && setSelectedOrders(orders.filter((order) => order.status === selectedState));
-    }, [selectedState, orders]);
+        getOrders();
+    }, [status]);
 
-    useEffect(() => {
-        const today = new Date();
-        const orderDate = new Date(latestOrder?.date || "");
-        setIsLatestOrderExpired(today > orderDate);
-    }, [latestOrder]);
-
-    const createOrder = (order_id: string) => {
-        order_id && user.token && placeOrder(user.token, order_id);
-    };
-
-    return { orders, stateNames, selectedState, setSelectedState, selectedOrders, createOrder, latestOrder, isLatestOrderExpired };
+    return { orders, latestOrder, status, setStatus, createOrder };
 }

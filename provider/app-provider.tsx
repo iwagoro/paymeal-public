@@ -4,37 +4,47 @@ import { useState, createContext, useEffect } from "react";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, getIdToken } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { getUserInfo } from "@/lib/api/user";
-import { userType } from "@/lib/types";
+import { apiRequest } from "@/lib/apiHandler";
+import { UserType } from "@/lib/types";
+import { PushSpinner } from "react-spinners-kit";
 
 export const AppContext = createContext(
     {} as {
-        user: userType;
-        setUser: React.Dispatch<React.SetStateAction<userType>>;
+        user: UserType;
+        setUser: React.Dispatch<React.SetStateAction<UserType>>;
     }
 );
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<userType>({} as userType);
+    const [user, setUser] = useState<UserType>({} as UserType);
     const [authStatus, setAuthStatus] = useState<0 | 1 | 2>(0); // 0: loading, 1: login, 2: logout
     const router = useRouter();
+
+    const getUser = async (token: string) => {
+        try {
+            apiRequest({
+                method: "GET",
+                endpoint: "/api/user",
+                token: token,
+            }).then((data) => {
+                setUser({ ...data, token } as UserType);
+                setAuthStatus(1);
+            });
+        } catch {
+            setAuthStatus(0);
+            router.push("/auth");
+        }
+    };
 
     useEffect(() => {
         onAuthStateChanged(auth, async (user) => {
             //?　ログイン
             if (user) {
-                try {
-                    const token = await getIdToken(user);
-                    const userInfo = await getUserInfo(token);
-                    setUser({ ...userInfo, token });
-                    setAuthStatus(1);
-                } catch {
-                    setAuthStatus(0);
-                    router.push("/auth");
-                }
+                const token = await getIdToken(user);
+                const userInfo = await getUser(token);
                 //? ログアウト
             } else {
-                setUser({} as userType);
+                setUser({} as UserType);
                 setAuthStatus(2);
                 router.push("/auth");
             }
@@ -42,5 +52,5 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     const contextValue = { user, setUser };
-    return <AppContext.Provider value={contextValue}>{authStatus == 0 ? <div>loading...</div> : children}</AppContext.Provider>;
+    return <AppContext.Provider value={contextValue}>{authStatus == 0 ? <PushSpinner size={50} color="crimson" /> : children}</AppContext.Provider>;
 };
