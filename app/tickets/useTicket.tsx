@@ -1,38 +1,75 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/provider/app-provider";
-import { addTicket, getAllTickets, getTags, getRelations } from "@/lib/api/ticket";
-import { TicketFormValues, TicketType, RelationType, TagType } from "@/lib/types";
+import { TagType, TicketStockType, TicketType } from "@/lib/types";
+import { apiRequest } from "@/lib/apiHandler";
+import { toast } from "sonner";
 
-export default function useTicket() {
+export default function useTickets() {
     const { user } = useContext(AppContext);
-    const [tickets, setTickets] = useState<TicketType[]>([]);
     const [tags, setTags] = useState<TagType[]>([]);
-    const [relations, setRelations] = useState<RelationType[]>([]);
-    const [selectedTickets, setSelectedTickets] = useState<TicketType[]>([]);
-    const [selectedTag, setSelectedTag] = useState<string>("all");
+    const [selectedTag, setSelectedTag] = useState<TagType>({} as TagType);
+    const [stocks, setStocks] = useState<TicketStockType[]>([]);
+    const [tickets, setTickets] = useState<TicketType[]>([]);
 
-    //! チケット、タグ、チケットとタグの関連を取得
-    useEffect(() => {
-        Promise.all([getAllTickets(), getTags(), getRelations()]).then(([tickets, tags, relations]: [TicketType[], TagType[], RelationType[]]) => {
-            setTickets(tickets);
-            setTags([{ id: 0, name: "all" } as TagType, ...tags]);
-            setRelations(relations);
+    const getTickets = async () => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/tickets",
+            useCache: true,
+        }).then((data) => {
+            setTickets(data);
         });
-    }, []);
-
-    //! 選択されたタグに関連するチケットを取得
-    useEffect(() => {
-        if (selectedTag === "all") {
-            setSelectedTickets(tickets);
-        } else {
-            const selected_tag_id = tags.find((tag) => tag.name === selectedTag)?.id;
-            setSelectedTickets(tickets.filter((ticket) => relations.find((tag) => tag.ticket_id === ticket.id && tag.tag_id === selected_tag_id)));
-        }
-    }, [selectedTag, tickets]);
-
-    const addToCart = async (ticket_id: number) => {
-        user.token && ticket_id && addTicket(user.token, ticket_id);
     };
 
-    return { tickets, tags, relations, selectedTickets, selectedTag, setSelectedTickets, setSelectedTag, addToCart };
+    const getTags = async () => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/tags",
+            useCache: true,
+        }).then((data) => {
+            setTags(data);
+            setSelectedTag(data[0]);
+        });
+    };
+
+    const getStocks = async () => {
+        apiRequest({
+            method: "GET",
+            endpoint: "/api/stocks",
+        }).then((data) => {
+            setStocks(data);
+        });
+    };
+
+    const addToCart = async (ticket_id: number) => {
+        apiRequest({
+            method: "POST",
+            endpoint: "/api/cart/",
+            token: user.token,
+            params: { ticket_id: ticket_id },
+        })
+            .then((data) => {
+                toast.success("Added to cart");
+            })
+            .catch((error) => {
+                toast.error("Failed to add to cart");
+            });
+    };
+
+    //! 初回レンダリング時に全チケット、全在庫、全タグを取得
+    useEffect(() => {
+        getTickets().then(() => getStocks());
+        getTags();
+    }, []);
+
+    useEffect(() => {
+        if (stocks.length > 0) {
+            const updatedTickets = tickets.map((ticket, i) => {
+                return { ...ticket, stock: stocks[i].stock, sales: stocks[i].unit_sales };
+            });
+            setTickets(updatedTickets);
+        }
+    }, [stocks]);
+
+    return { user, tags, stocks, tickets, selectedTag, setSelectedTag, addToCart };
 }
