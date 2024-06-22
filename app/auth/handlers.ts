@@ -1,7 +1,3 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "firebase/auth";
-import { apiRequest } from "@/lib/apiHandler";
-import { auth } from "@/lib/firebase";
-
 //! サインアップ時のエラーハンドリング
 export const handleSignUpError = (error: any) => {
     switch (error.code) {
@@ -45,45 +41,3 @@ export const handleLoginError = (error: any) => {
 };
 
 export type FormType = { email: string; password: string };
-//! サインアップハンドラ
-export const SignUpHandler = async (data: FormType, setErrorMessage: (msg: string) => void) => {
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-        const token = await userCredential.user.getIdToken();
-        try {
-            await apiRequest({
-                method: "POST",
-                endpoint: "/api/user",
-                token: token,
-            });
-            window.location.href = "/home";
-        } catch (error) {
-            await deleteUser(userCredential.user);
-            setErrorMessage("Server error occurred. Please try again later.");
-        }
-    } catch (error) {
-        const msg = handleSignUpError(error);
-        setErrorMessage(msg);
-    }
-};
-
-//! ログインハンドラ
-export const LoginHandler = async (data: FormType, setErrorMessage: (msg: string) => void) => {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-        const token = await userCredential.user.getIdToken();
-        try {
-            await apiRequest({
-                method: "GET",
-                endpoint: "/api/user",
-                token: token,
-            });
-            window.location.href = "/home";
-        } catch {
-            setErrorMessage("Server error occurred. Please try again later.");
-        }
-    } catch (error) {
-        const msg = handleLoginError(error);
-        setErrorMessage(msg);
-    }
-};

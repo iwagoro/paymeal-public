@@ -1,25 +1,21 @@
-"use client";
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import CartDescription from "./CartDescription";
 import CartItemsTable from "./CartItemsTable";
-import CartSummary from "./CartSummary";
-import useCart from "./useCart";
+import { CartType } from "@/lib/types";
+import { auth } from "@/lib/auth";
+import { getHandler, postHandler, deleteHandler } from "@/lib/apiHandler";
 
-export default function Home() {
-    const { cart, addToCart, removeFromCart } = useCart();
+const getCart = async (token: string) => {
+    const cart = await getHandler({ method: "GET", endpoint: "/cart", token: token, revalidate: 10, returnType: "object" });
+    return cart;
+};
 
+export default async function Home() {
+    const session = await auth();
+    const cart = (await (session && getCart(session?.idToken))) as CartType;
     return (
         <div className="w-full flex flex-col justify-start items-start gap-5">
-            <CartDescription cart={cart} />
-
-            <Card className="w-full">
-                <CardHeader>
-                    <CardTitle>Tickets</CardTitle>
-                    <CartItemsTable cart={cart} add={addToCart} sub={removeFromCart} />
-                </CardHeader>
-            </Card>
-            <CartSummary cart={cart} />
+            <CartItemsTable preCart={cart} />
         </div>
     );
 }

@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-export function middleware(request: NextRequest) {
-    const response = NextResponse.next();
-
-    const pathname = request.nextUrl.pathname;
-
-    // ルートごとにキャッシュ制御ヘッダーを設定
-    if (pathname.startsWith("/tickets")) {
-        response.headers.set("Cache-Control", "public, max-age=60, stale-while-revalidate=59");
-    } else if (pathname.startsWith("/tags")) {
-        response.headers.set("Cache-Control", "public, max-age=60, stale-while-revalidate=59");
+export { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+export async function middleware(request: NextRequest) {
+    const session = await auth();
+    if (!session) {
+        return NextResponse.redirect(new URL("/auth", request.url));
     }
 
     if (request.nextUrl.pathname === "/") {
