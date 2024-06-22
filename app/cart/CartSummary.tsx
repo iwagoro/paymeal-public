@@ -1,12 +1,37 @@
+"use client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { P } from "@/components/ui/typography";
 import { TriangleAlert } from "lucide-react";
 import { CartType } from "@/lib/types";
-import useCart from "./useCart";
+import { getHandler, postHandler, deleteHandler } from "@/lib/apiHandler";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { toast } from "sonner";
+
+const purchaseCart = async (token: string, order_id: string) => {
+    getHandler({ method: "GET", endpoint: "/payment/", token: token, params: { order_id: order_id }, revalidate: 10, returnType: "string" })
+        .then((data) => {
+            window.location.href = data.url;
+        })
+        .catch(() => {
+            toast.error("Failed to purchase cart");
+        });
+};
+
+const deleteLink = async (token: string, order_id: string) => {
+    deleteHandler({ endpoint: "/payment/", token: token, params: { order_id: order_id } }).then(
+        () => {
+            toast.success("Deleted link");
+        },
+        () => {
+            toast.error("Failed to delete link");
+        }
+    );
+};
 
 export default function CartSummary({ cart }: { cart: CartType }) {
-    const { purchaseCart, deleteLink } = useCart();
+    const { data: session } = useSession();
     return (
         <Card className="w-full">
             <CardHeader>
@@ -15,15 +40,15 @@ export default function CartSummary({ cart }: { cart: CartType }) {
             <CardContent>
                 <div className="w-full flex justify-between items-center">
                     <P>Total</P>
-                    <P>{cart.items.length}</P>
+                    <P>{cart?.items && cart.items.length}</P>
                 </div>
                 <div className="w-full flex justify-between items-center">
                     <P>Total Price</P>
-                    <P>¥{cart.total}</P>
+                    <P>¥{cart?.total}</P>
                 </div>
             </CardContent>
             <CardContent>
-                <Button className="w-full" onClick={purchaseCart}>
+                <Button className="w-full" onClick={() => session && cart && purchaseCart(session?.idToken, cart?.id)}>
                     Checkout
                 </Button>
             </CardContent>
@@ -33,7 +58,7 @@ export default function CartSummary({ cart }: { cart: CartType }) {
                     <TriangleAlert />
                     If you finished payment, you can&#39;t cancel purchase
                 </CardDescription>
-                <Button className="w-full" variant="outline" onClick={deleteLink}>
+                <Button className="w-full" variant="outline" onClick={() => session && cart && deleteLink(session?.idToken, cart?.id)}>
                     Delete Link
                 </Button>
             </CardContent>

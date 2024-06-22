@@ -18,7 +18,7 @@ export type TicketType = {
 };
 
 export type TicketStockType = {
-    id: number;
+    ticket_id: number;
     stock: number;
     unit_sales: number;
 };
