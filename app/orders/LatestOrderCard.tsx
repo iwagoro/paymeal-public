@@ -1,18 +1,27 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion";
-import { Switch } from "@/components/ui/switch";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { TriangleAlert } from "lucide-react";
 import { toZonedTime, format } from "date-fns-tz";
+import { auth } from "@/lib/auth";
+import { getHandler, postHandler } from "@/lib/apiHandler";
+import { OrderType } from "@/lib/types";
 
-import useOrder from "./useOrder";
+const getLatestOrder = async (token: string) => {
+    const order = await getHandler({ method: "GET", endpoint: "/orders/latest", token: token, returnType: "object", revalidate: 10 });
+    return order as OrderType;
+};
 
-export default function LatestOrderCard() {
-    const { latestOrder: order, createOrder } = useOrder();
+const placeOrder = async (token: string, order_id: string) => {
+    "use server";
+    await postHandler({ endpoint: "/orders/", params: { order_id: order_id }, token: token });
+};
+
+export default async function LatestOrderCard() {
+    const session = await auth();
+    const order = session && ((await getLatestOrder(session?.idToken)) as OrderType);
     const today = format(toZonedTime(new Date(), "Asia/Tokyo"), "yyyy-MM-dd");
     const isExpired = order?.order_date && order.order_date.toLocaleString() != today;
 
@@ -29,61 +38,50 @@ export default function LatestOrderCard() {
                 </div>
                 <Badge className="w-fit h-fit">{order?.status}</Badge>
             </CardHeader>
-            <CardContent>
-                {order?.id ? (
-                    <Accordion type="single" collapsible defaultValue="item-1">
-                        <AccordionItem value="item-1">
-                            <div className="w-full flex justify-start gap-5 ">
-                                <AccordionPrimitive.Trigger asChild>
-                                    <div className="p-2 flex w-full items-center gap-4">
-                                        <Switch defaultChecked />
 
-                                        <CardDescription>Show Details</CardDescription>
-                                    </div>
-                                </AccordionPrimitive.Trigger>
-                            </div>
-                            {isExpired && (
-                                <AccordionContent>
-                                    <Alert variant="destructive">
-                                        <AlertTitle className="text-2xl font-semibold flex gap-2 items-center">
-                                            <TriangleAlert />
-                                            Oops..
-                                        </AlertTitle>
-                                        <AlertDescription>This ticket is expired. Ordering is not possible. Please buy another one.</AlertDescription>
-                                    </Alert>
-                                </AccordionContent>
-                            )}
-                            <AccordionContent>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="text-left">Ticket</TableHead>
-                                            <TableHead className="text-center">Quantity</TableHead>
-                                            <TableHead className="text-right">amount</TableHead>
-                                            <TableHead className="text-right">total</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {Array.isArray(order?.items) &&
-                                            order.items.map((item, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>{item.ticket_name}</TableCell>
-                                                    <TableCell className="text-center">{item.quantity}</TableCell>
-                                                    <TableCell className="text-right">¥{item.ticket_price}</TableCell>
-                                                    <TableCell className="text-right">¥{item.ticket_price * item.quantity}</TableCell>
-                                                </TableRow>
-                                            ))}
-                                    </TableBody>
-                                </Table>
-                            </AccordionContent>
-                            <Button disabled={order.status !== "purchased" || isExpired} onClick={() => order.status === "purchased" && !isExpired && createOrder(order.id)} className="w-full">
-                                {order.status === "purchased" && !isExpired ? "Order" : "Unable to order"}
-                            </Button>
-                        </AccordionItem>
-                    </Accordion>
-                ) : (
-                    <CardDescription>No orders found</CardDescription>
+            <CardContent>
+                {isExpired && (
+                    <Alert variant="destructive">
+                        <AlertTitle className="text-2xl font-semibold flex gap-2 items-center">
+                            <TriangleAlert />
+                            Oops..
+                        </AlertTitle>
+                        <AlertDescription>This ticket is expired. Ordering is not possible. Please buy another one.</AlertDescription>
+                    </Alert>
                 )}
+            </CardContent>
+            <CardContent>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="text-left">Ticket</TableHead>
+                            <TableHead className="text-center">Quantity</TableHead>
+                            <TableHead className="text-right">amount</TableHead>
+                            <TableHead className="text-right">total</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {Array.isArray(order?.items) &&
+                            order.items.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{item.ticket_name}</TableCell>
+                                    <TableCell className="text-center">{item.quantity}</TableCell>
+                                    <TableCell className="text-right">¥{item.ticket_price}</TableCell>
+                                    <TableCell className="text-right">¥{item.ticket_price * item.quantity}</TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+                <form
+                    action={async () => {
+                        "use server";
+                        session && order && placeOrder(session?.idToken, order?.id);
+                    }}
+                >
+                    <Button disabled={order?.status !== "purchased" || isExpired} className="w-full">
+                        {order?.status === "purchased" && !isExpired ? "Order" : "Unable to order"}
+                    </Button>
+                </form>
             </CardContent>
         </Card>
     );
