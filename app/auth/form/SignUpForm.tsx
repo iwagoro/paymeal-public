@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "./FormInput";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { TriangleAlert } from "lucide-react";
-import { SignUpHandler, FormType } from "../handlers";
+import { FormType } from "../handlers";
+import { signIn } from "next-auth/react";
 
 export default function SignUpForm({ variation }: { variation?: "outline" | "default" }) {
     const [errorMessage, setErrorMessage] = useState<string>("");
@@ -17,7 +18,8 @@ export default function SignUpForm({ variation }: { variation?: "outline" | "def
     } = useForm<FormType>();
 
     return (
-        <form onSubmit={handleSubmit((data) => SignUpHandler(data, setErrorMessage))} className="w-full flex flex-col gap-10">
+        // <form onSubmit={handleSubmit((data) => SignUpHandler(data, setErrorMessage))} className="w-full flex flex-col gap-10">
+        <form onSubmit={handleSubmit((data) => signIn("credentials", { email: data.email, password: data.password, redirect: true, callbackUrl: "/" }))} className="w-full flex flex-col gap-10">
             {errorMessage && (
                 <Alert variant="destructive">
                     <TriangleAlert size={16} />

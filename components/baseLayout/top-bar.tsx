@@ -1,6 +1,9 @@
 import Link from "next/link";
-import { Drawer } from "./drawer";
-export const TopBar = () => {
+import Drawer from "./drawer";
+import { auth, signIn, signOut } from "@/lib/auth";
+import { Button } from "../ui/button";
+export const TopBar = async () => {
+    const session = await auth();
     return (
         <div className="absolute top-0 z-50 max-w-3xl w-full h-[50px] flex justify-center items-center px-5  bg-background  ">
             <div className="w-full h-full max-w-2xl flex justify-between items-center gap-10">

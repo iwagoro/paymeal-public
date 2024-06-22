@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, Method } from "axios";
+import { Method } from "axios";
 import { toast } from "sonner";
 
 interface RequestOptions {
@@ -6,43 +6,89 @@ interface RequestOptions {
     endpoint: string;
     token?: string;
     params?: Record<string, string | number>;
-    data?: any;
-    useCache?: boolean;
+    revalidate?: number;
 }
 
-export const apiRequest = async ({ method, endpoint, token, params, data, useCache = false }: RequestOptions) => {
-    const config: AxiosRequestConfig = {
+export const baseApiHandler = async ({ method, endpoint, token, params, revalidate = 60 }: RequestOptions) => {
+    const baseURL = process.env.NEXT_PUBLIC_API_URL;
+    const url_params = new URLSearchParams(Object.entries(params || {}).map(([key, value]) => [key, value.toString()]));
+    const fullURL = `${baseURL}${endpoint}${url_params ? `?${url_params}` : ""}`;
+    const authorization = { Authorization: `Bearer ${token}` };
+
+    const headers = new Headers();
+    if (authorization.Authorization) {
+        headers.set("Authorization", authorization.Authorization);
+    }
+
+    const res = await fetch(fullURL, {
         method,
-        url: endpoint,
-        headers: {},
-        params: {},
-        data: data || {}, // POSTやPUTの場合のデータ
-    };
+        next: {
+            revalidate: revalidate,
+        },
+        headers: headers,
+    });
 
-    if (token) {
-        config.headers = {
-            Authorization: `Bearer ${token}`,
-        };
+    if (!res.ok) {
+        throw new Error(`${res.status}`);
     }
+    const data = await res.json();
+    return data;
+};
 
-    if (params) {
-        config.params = params;
-    }
+interface GetRequestOptions {
+    method: Method;
+    endpoint: string;
+    token?: string;
+    params?: Record<string, string | number>;
+    revalidate?: number;
+    returnType: string;
+}
 
-    if (useCache) {
-        config.headers = {
-            ...config.headers,
-            "use-cache": "true",
-        };
-    }
-
+export const getHandler = async ({ endpoint, token, params, revalidate, returnType }: GetRequestOptions) => {
     try {
-        const res = await axios.request(config);
-        return res.data;
-    } catch (error: unknown) {
-        const errorMessage = axios.isAxiosError(error) && error.response?.data ? error.response.data.error || "Failed to fetch data from external API" : "Failed to fetch data from external API";
+        return await baseApiHandler({ method: "GET", endpoint, token, params, revalidate });
+    } catch {
+        switch (returnType) {
+            case "array":
+                return [];
+            case "object":
+                return {};
+            case "string":
+                return "";
+            case "number":
+                return 0;
+            default:
+                return null;
+        }
+    }
+};
 
-        toast.error(errorMessage);
-        throw error; // エラーを再スローすることで呼び出し元でもハンドリング可能にする
+interface PostRequestOptions {
+    endpoint: string;
+    token?: string;
+    params?: Record<string, string | number>;
+}
+
+export const postHandler = async ({ endpoint, token, params }: PostRequestOptions) => {
+    try {
+        return await baseApiHandler({ method: "POST", endpoint, token, params });
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+};
+
+export const deleteHandler = async ({ endpoint, token, params }: PostRequestOptions) => {
+    try {
+        return await baseApiHandler({ method: "DELETE", endpoint, token, params });
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+};
+
+export const patchHandler = async ({ endpoint, token, params }: PostRequestOptions) => {
+    try {
+        return await baseApiHandler({ method: "PATCH", endpoint, token, params });
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 };
