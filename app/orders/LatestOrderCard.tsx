@@ -22,8 +22,9 @@ const placeOrder = async (token: string, order_id: string) => {
 export default async function LatestOrderCard() {
     const session = await auth();
     const order = session && ((await getLatestOrder(session?.idToken)) as OrderType);
-    const today = format(toZonedTime(new Date(), "Asia/Tokyo"), "yyyy-MM-dd");
-    const isExpired = order?.order_date && order.order_date.toLocaleString() != today;
+    const today = format(toZonedTime(new Date(), "Asia/Tokyo"), "HH:mm");
+    const isAvailable = today >= "11:00" && today <= "13:00";
+    const isExpired = order?.purchase_date && order.purchase_date.toLocaleString() != today;
 
     return (
         <Card className="w-full">
@@ -78,7 +79,7 @@ export default async function LatestOrderCard() {
                         session && order && placeOrder(session?.idToken, order?.id);
                     }}
                 >
-                    <Button disabled={order?.status !== "purchased" || isExpired} className="w-full">
+                    <Button disabled={order?.status !== "purchased" || isExpired || !isAvailable} className="w-full">
                         {order?.status === "purchased" && !isExpired ? "Order" : "Unable to order"}
                     </Button>
                 </form>

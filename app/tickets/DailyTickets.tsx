@@ -25,11 +25,7 @@ export default async function DailyTickets() {
                             <List className="">
                                 {Array.isArray(ticket.contents) &&
                                     ticket.contents.map((content, index) => {
-                                        return (
-                                            <li key={index} className="text-white">
-                                                {content}
-                                            </li>
-                                        );
+                                        return <li key={index}>{content}</li>;
                                     })}
                             </List>
                         </div>
