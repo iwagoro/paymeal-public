@@ -22,7 +22,7 @@ export const authOptions = {
                                 id: userCredential.user.uid,
                                 name: userCredential.user.displayName,
                                 email: userCredential.user.email,
-                                idToken, // 修正: idTokenとして返す
+                                idToken,
                             };
                         }
                         return null;
@@ -37,13 +37,22 @@ export const authOptions = {
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: any }) {
             if (user) {
-                token.idToken = user.idToken; // 修正: idTokenとして保存
+                token.idToken = user.idToken;
+            }
+            // Check if token is expired and refresh if needed
+            if (typeof token.idToken === "string") {
+                const currentTime = Math.floor(Date.now() / 1000);
+                const tokenExpirationTime = JSON.parse(atob(token.idToken.split(".")[1])).exp;
+                if (tokenExpirationTime < currentTime) {
+                    const refreshedToken = await Auth.currentUser?.getIdToken(true);
+                    token.idToken = refreshedToken;
+                }
             }
             return token;
         },
         async session({ session, token }: { session: Session; token: JWT }) {
             if (token) {
-                session.idToken = token.idToken as string; // 修正: idTokenをセッションに保存
+                session.idToken = token.idToken as string;
             }
             return session;
         },
