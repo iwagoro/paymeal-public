@@ -21,7 +21,7 @@ export default async function PopularTickets() {
                             <img src={ticket.img_url} alt={ticket.name} className="w-full" />
                         </div>
                         <div className="flex-[3] flex flex-col  gap-5">
-                            <H1 className="text-xl font-bold text-gray-500">{index + 1}番人気</H1>
+                            <H2 className="text-xl font-bold text-gray-500">{index + 1}番人気</H2>
                             <H1 className="text-4xl font-bold">{ticket.name}</H1>
                             <p className="text-xl ">{ticket.description}</p>
                             <Badge className="w-fit text-lg">¥{ticket.price}</Badge>
