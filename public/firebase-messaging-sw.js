@@ -1,16 +1,15 @@
 // Use importScripts to load Firebase SDKs
 importScripts("https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js");
-
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBTgDHrUjbbOXf4VBpPjZ8GXs2gjgT3eN0",
-    authDomain: "paymeal-fd828.firebaseapp.com",
-    projectId: "paymeal-fd828",
-    storageBucket: "paymeal-fd828.appspot.com",
-    messagingSenderId: "423569473289",
-    appId: "1:423569473289:web:9a4c22138c932db19bddd8",
-    measurementId: "G-BY897T14QB",
+    apiKey: "AIzaSyAizt7M5CyQqfJlyWTIKN2WFiZ5G5UqN3o",
+    authDomain: "paymeal-424607.firebaseapp.com",
+    projectId: "paymeal-424607",
+    storageBucket: "paymeal-424607.appspot.com",
+    messagingSenderId: "466058708922",
+    appId: "1:466058708922:web:f45687c7bc258b7f24ff83",
+    measurementId: "G-BD6614G7Q4",
 };
 
 // Initialize Firebase
@@ -21,13 +20,11 @@ const messaging = firebase.messaging();
 
 // Background message handler
 messaging.onBackgroundMessage((payload) => {
-    console.log("[firebase-messaging-sw.js] Received background message ");
-    // Customize notification here
-    const notificationTitle = "Background Message Title";
+    console.log("[firebase-messaging-sw.js] Received background message ", payload);
+    const notificationTitle = payload.notification.title;
     const notificationOptions = {
-        body: "Background Message body.",
-        icon: "/firebase-logo.png",
+        body: payload.notification.body,
+        icon: "./logo.png",
     };
-
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
