@@ -5,7 +5,7 @@
   <br>
 </h1>
 
-<h4 align="center">School cafe app build by next.js / fastAPI</h4>
+<h4 align="center">School cafe app built with Next.js and FastAPI</h4>
 
 <p align="center">
     <img src="https://img.shields.io/badge/-Next.js-000000.svg?logo=next.js&style=for-the-badge">
@@ -13,104 +13,46 @@
     <img src="https://img.shields.io/badge/-shadcn/ui-000000.svg?logo=shadcnui&style=for-the-badge">
     <img src="https://img.shields.io/badge/-typescript-white.svg?logo=typescript&style=for-the-badge">
     <img src="https://img.shields.io/badge/-firebase-white.svg?logo=firebase&style=for-the-badge">
-
 </p>
 
 <p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
+  <img src="demo-image-url.png" alt="Paymeal Demo" width="600">
 </p>
 
-## Key Features
+## 概要
 
--   LivePreview - Make changes, See changes
-    -   Instantly see what your Markdown documents look like in HTML as you create them.
--   Sync Scrolling
-    -   While you type, LivePreview will automatically scroll to the current location you're editing.
--   GitHub Flavored Markdown
--   Syntax highlighting
--   [KaTeX](https://khan.github.io/KaTeX/) Support
--   Dark/Light mode
--   Toolbar for basic Markdown formatting
--   Supports multiple cursors
--   Save the Markdown preview as PDF
--   Emoji support in preview :tada:
--   App will keep alive in tray for quick usage
--   Full screen mode
-    -   Write distraction free.
--   Cross platform
-    -   Windows, macOS and Linux ready.
+![image](https://github.com/iwagoro/pay-meal/assets/42830468/65d0d15a-36ea-4fbc-b2a5-177ccba30f0e)
 
-## How To Use
+Paymeal は、学食の利用をよりスマートにするためのアプリケーションです。Next.js と FastAPI を使用して構築されており、高速な動作を実現しています。
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+## 特徴
+
+-   **スマートオーダー**: アプリを通じて学食のメニューを確認し、注文が可能です。
+-   **リアルタイム通知**: 注文状況をリアルタイムで通知します。
+-   **簡単な支払い**: 多様な支払い方法をサポートしています。
+-   **ユーザー管理**: ユーザープロファイルの管理と履歴確認ができます。
+
+## インストール手順
+
+以下の手順に従ってプロジェクトをセットアップしてください：
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/amitmerchant1990/electron-markdownify
+# このリポジトリをクローンします
+$ git clone https://github.com/iwagoro/pay-meal.git
 
-# Go into the repository
-$ cd electron-markdownify
+# リポジトリのディレクトリに移動します
+$ cd pay-meal
 
-# Install dependencies
-$ npm install
+# 依存関係をインストールします
+$ yarn install
 
-# Run the app
-$ npm start
+# アプリケーションを起動します
+$ yarn dev
 ```
 
-> **Note**
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+## 技術スタック
 
-## Download
-
-You can [download](https://github.com/amitmerchant1990/electron-markdownify/releases/tag/v1.2.0) the latest installable version of Markdownify for Windows, macOS and Linux.
-
-## Emailware
-
-Markdownify is an [emailware](https://en.wiktionary.org/wiki/emailware). Meaning, if you liked using this app or it has helped you in any way, I'd like you send me an email at <bullredeyes@gmail.com> about anything you'd want to say about this software. I'd really appreciate it!
-
-## Credits
-
-This software uses the following open source packages:
-
--   [Electron](http://electron.atom.io/)
--   [Node.js](https://nodejs.org/)
--   [Marked - a markdown parser](https://github.com/chjj/marked)
--   [showdown](http://showdownjs.github.io/showdown/)
--   [CodeMirror](http://codemirror.net/)
--   Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
--   [highlight.js](https://highlightjs.org/)
-
-## Related
-
-[markdownify-web](https://github.com/amitmerchant1990/markdownify-web) - Web version of Markdownify
-
-## Support
-
-<a href="https://www.buymeacoffee.com/5Zn8Xh3l9" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-<p>Or</p>
-
-<a href="https://www.patreon.com/amitmerchant">
-	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-## You may also like...
-
--   [Pomolectron](https://github.com/amitmerchant1990/pomolectron) - A pomodoro app
--   [Correo](https://github.com/amitmerchant1990/correo) - A menubar/taskbar Gmail App for Windows and macOS
-
-## License
-
-MIT
-
----
-
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
+-   **フロントエンド**: Next.js, Tailwind CSS, Shadcn UI, TypeScript ,Aceternity UI
+-   **バックエンド**: FastAPI
+-   **データベース**: Supabase(PostgreSQL)
+-   **その他**: Vercel (デプロイ) , GCP(デプロイ)
