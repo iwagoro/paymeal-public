@@ -10,5 +10,5 @@ const getStocks = async () => {
 export default async function StockBadges({ id }: { id: number }) {
     const stocks = (await getStocks()) as TicketStockType[];
     const stock = stocks.find((stock) => stock.ticket_id === id);
-    return <Badge variant="outline">{stock?.stock} in stock</Badge>;
+    return <Badge variant="outline">{(stock?.stock ?? 0) - (stock?.unit_sales ?? 0)} in stock</Badge>;
 }

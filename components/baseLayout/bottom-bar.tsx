@@ -4,6 +4,7 @@ import { GoHome, GoSearch, GoBell } from "react-icons/go";
 import { IoBagOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { Card } from "@/components/ui/card";
 
 //! リンクのボタン
 const NavLink = ({ to, icon, active }: { to: string; icon: React.ReactNode; active: boolean }) => (
@@ -29,12 +30,12 @@ export const BottomBar = () => {
     ];
 
     return (
-        <div className="absolute bottom-0 z-50 w-full h-[50px] flex justify-center items-center px-10 bg-background">
-            <div className="w-full h-full max-w-2xl flex justify-between items-center  gap-10">
+        <div className="absolute mb-5  bottom-0 z-50 w-full h-[50px] flex justify-center items-center px-10 bg-transparent">
+            <Card className="w-full h-full max-w-md flex justify-between items-center  gap-10 px-5">
                 {navItems.map((item) => (
                     <NavLink key={item.path} to={`/${item.path}`} icon={item.icon} active={page === item.path} />
                 ))}
-            </div>
+            </Card>
         </div>
     );
 };

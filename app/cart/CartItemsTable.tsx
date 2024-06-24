@@ -18,31 +18,31 @@ export default function CartItemsTable({ preCart }: { preCart: CartType }) {
     const { data: session } = useSession();
 
     useEffect(() => {
+        let cnt = 0;
         if (cart?.status == "processing") {
-            //５秒ごとに確認
-            const interval = setInterval(() => {
-                confirm();
-            }, 5000);
-            return () => clearInterval(interval);
+            session &&
+                patchHandler({ endpoint: "/payment/", token: session.idToken, params: { order_id: cart.id } })
+                    .then(() => {
+                        setCart({ ...cart, status: "completed" });
+                        toast.success("Payment completed");
+                    })
+                    .catch(() => {
+                        toast.error("Failed to update cart");
+                    });
         }
-    }, [cart]);
-
-    const confirm = async () => {
-        session &&
-            patchHandler({ endpoint: "/payment/", token: session.idToken, params: { order_id: cart.id } })
-                .then((data) => {
-                    toast("Payment completed");
-                })
-                .catch(() => {
-                    toast.error("Failed to purchase cart");
-                });
-    };
+    }, [cart, session]);
 
     const add = async (ticketId: number) => {
         session &&
             postHandler({ endpoint: "/cart/", token: session.idToken, params: { ticket_id: ticketId } })
                 .then(() => {
-                    setCart({ ...cart, items: cart.items.map((item) => (item.ticket_id === ticketId ? { ...item, quantity: item.quantity + 1 } : item)) });
+                    //!カートの数量の変更とtotalの変更
+                    const diff = cart.items.find((item) => item.ticket_id === ticketId)?.ticket_price || 0;
+                    setCart({
+                        ...cart,
+                        total: cart.total + diff,
+                        items: cart.items.map((item) => (item.ticket_id === ticketId ? { ...item, quantity: item.quantity + 1 } : item)),
+                    });
                 })
                 .catch(() => {
                     toast.error("Failed to remove from cart");

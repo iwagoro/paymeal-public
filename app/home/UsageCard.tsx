@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import { getHandler } from "@/lib/apiHandler";
 import { auth } from "@/lib/auth";
 const getUsage = async (token: string) => {
-    const data = await getHandler({ method: "GET", endpoint: "/user/usage", token: token, returnType: "object" });
+    const data = await getHandler({ method: "GET", endpoint: "/user/usage", token: token, revalidate: 10, returnType: "object" });
     return data;
 };
 
