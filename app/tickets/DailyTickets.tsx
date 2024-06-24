@@ -5,7 +5,7 @@ import { H1, H2, H3, List, P } from "@/components/ui/typography";
 import { Badge } from "@/components/ui/badge";
 
 const getDailyTickets = async () => {
-    const data = await getHandler({ method: "GET", endpoint: "/tickets/daily", revalidate: 1, returnType: "array" });
+    const data = await getHandler({ method: "GET", endpoint: "/tickets/daily", revalidate: 100, returnType: "array" });
     return data;
 };
 
