@@ -3,6 +3,7 @@ import Drawer from "./drawer";
 import { auth, signIn, signOut } from "@/lib/auth";
 import { AuthToggle } from "../util/AuthToggle";
 import { ModeToggle } from "../util/ModeToggle";
+import { NotificationToggle } from "../util/NotificationToggle";
 export const TopBar = async () => {
     const session = await auth();
     return (
@@ -14,6 +15,7 @@ export const TopBar = async () => {
                     </div>
                 </Link>
                 <div className="w-fit flex gap-5 items-center">
+                    <NotificationToggle />
                     <ModeToggle />
                     <AuthToggle />
                 </div>
