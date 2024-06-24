@@ -14,7 +14,7 @@ const inter = Inter({
     weight: ["400", "700"], // 必要なウェイトを指定
 });
 
-const baseStyle = "w-screen h-screen flex justify-center items-center bg-background overflow-hidden";
+const baseStyle = "w-screen h-screen flex justify-center items-center bg-background overflow-hidden  dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2]";
 const responsiveStyle = "max-w-3xl w-full h-full  py-[70px]  px-5 overflow-y-scroll hidden-scrollbar";
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning={true}>
             <body className={inter.className + " " + baseStyle}>
                 <SessionProvider>
-                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
                         {/* <AppProvider> */}
                         <TopBar />
                         <div className={responsiveStyle}>{children}</div>

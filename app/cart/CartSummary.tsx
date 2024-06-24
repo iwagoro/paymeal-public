@@ -12,7 +12,7 @@ import { toast } from "sonner";
 const purchaseCart = async (token: string, order_id: string) => {
     getHandler({ method: "GET", endpoint: "/payment/", token: token, params: { order_id: order_id }, revalidate: 10, returnType: "string" })
         .then((data) => {
-            window.location.href = data.url;
+            window.location.href = data;
         })
         .catch(() => {
             toast.error("Failed to purchase cart");
