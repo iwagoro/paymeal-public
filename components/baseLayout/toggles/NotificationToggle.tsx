@@ -40,19 +40,19 @@ export function NotificationToggle() {
 
     const setNotificationToken = async () => {
         getNotificationToken().then((token) => {
-            user.token && token && postHandler({ endpoint: "/user/notification", token: user.token, params: { token: token } }).then(() => setUser({ ...user, notification_token: token }));
+            user?.token && token && postHandler({ endpoint: "/user/notification", token: user.token, params: { token: token } }).then(() => setUser({ ...user, notification_token: token }));
         });
     };
 
     const deleteNotifications = async () => {
-        user.token && deleteHandler({ endpoint: "/user/notification", token: user.token }).then(() => setUser({ ...user, notification_token: null }));
+        user?.token && deleteHandler({ endpoint: "/user/notification", token: user.token }).then(() => setUser({ ...user, notification_token: null }));
     };
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
-                    {user.notification_token ? <BellRing className="h-[1.2rem] w-[1.2rem] transition-all" /> : <BellOff className="absolute h-[1.2rem] w-[1.2rem] transition-all" />}
+                    {user?.notification_token ? <BellRing className="h-[1.2rem] w-[1.2rem] transition-all" /> : <BellOff className="absolute h-[1.2rem] w-[1.2rem] transition-all" />}
                     <span className="sr-only">Toggle notifications</span>
                 </Button>
             </DropdownMenuTrigger>

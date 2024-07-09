@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DailyTickets() {
     const { user } = useContext(AuthContext);
-    const { data: tickets, error, isLoading } = useSWRImmutable<TicketType[]>(user.token ? ["/tickets/daily", user.token] : null, ([url, token]) => fetcher(url, token as string));
+    const { data: tickets, error, isLoading } = useSWRImmutable<TicketType[]>(user?.token ? ["/tickets/daily", user.token] : null, ([url, token]) => fetcher(url, token as string));
 
     if (isLoading || error) {
         return <Skeleton className="h-64 w-full " />;
