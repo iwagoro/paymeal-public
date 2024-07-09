@@ -11,12 +11,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Tickets() {
     const { user } = useContext(AuthContext);
-    const { data: tags, error: tagsError, isLoading: tagsLoading } = useSWRImmutable<TagType[]>(user.token ? ["/tags", user.token] : null, ([url, token]) => fetcher(url, token as string));
+    const { data: tags, error: tagsError, isLoading: tagsLoading } = useSWRImmutable<TagType[]>(user?.token ? ["/tags", user.token] : null, ([url, token]) => fetcher(url, token as string));
     const {
         data: tickets,
         error: ticketsError,
         isLoading: ticketsLoading,
-    } = useSWRImmutable<TicketType[]>(user.token ? ["/tickets", user.token] : null, ([url, token]) => fetcher(url, token as string));
+    } = useSWRImmutable<TicketType[]>(user?.token ? ["/tickets", user.token] : null, ([url, token]) => fetcher(url, token as string));
 
     if (tagsLoading || ticketsLoading || tagsError || ticketsError) {
         return <TicketSkeltons />;

@@ -14,10 +14,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CartSummary() {
     const { user } = useContext(AuthContext);
-    const { data: cart, error, isLoading } = useSWR<CartType>(user.token ? ["/cart", user.token] : null, ([url, token]) => fetcher(url, token as string));
+    const { data: cart, error, isLoading } = useSWR<CartType>(user?.token ? ["/cart", user.token] : null, ([url, token]) => fetcher(url, token as string));
 
     const purchaseCart = async () => {
-        user.token &&
+        user?.token &&
             cart?.id &&
             modifier
                 .post("/payment/", user.token, { order_id: cart.id })
@@ -31,7 +31,7 @@ export default function CartSummary() {
     };
 
     const deleteLink = async () => {
-        user.token &&
+        user?.token &&
             cart?.id &&
             modifier
                 .delete("/payment/", user.token, { order_id: cart.id })
