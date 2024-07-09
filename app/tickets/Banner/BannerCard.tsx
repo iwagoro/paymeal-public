@@ -5,12 +5,12 @@ import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
-export default async function BanerCard({ children }: { children: React.ReactNode[] }) {
+export default function BannerCard({ children }: { children: React.ReactNode }) {
     const plugin = useRef(Autoplay({ delay: 3000 }));
     return (
         <Carousel plugins={[plugin.current]} className="w-full" onMouseEnter={plugin.current.stop} onMouseLeave={plugin.current.reset}>
             <CarouselContent>
-                {children &&
+                {Array.isArray(children) ? (
                     children.map((child, index) => (
                         <CarouselItem key={index}>
                             <div className="p-1">
@@ -19,7 +19,16 @@ export default async function BanerCard({ children }: { children: React.ReactNod
                                 </Card>
                             </div>
                         </CarouselItem>
-                    ))}
+                    ))
+                ) : (
+                    <CarouselItem>
+                        <div className="p-1">
+                            <Card>
+                                <CardContent className="flex h-64 items-center justify-center p-6">{children}</CardContent>
+                            </Card>
+                        </div>
+                    </CarouselItem>
+                )}
             </CarouselContent>
         </Carousel>
     );

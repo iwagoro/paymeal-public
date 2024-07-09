@@ -6,20 +6,34 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "./FormInput";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { TriangleAlert } from "lucide-react";
-import { FormType } from "../handlers";
-import { signIn } from "next-auth/react";
+import { FormType, signUp } from "../handlers";
+import { useRouter } from "next/navigation";
+import { mutate } from "swr";
+import { toast } from "sonner";
 
 export default function SignUpForm({ variation }: { variation?: "outline" | "default" }) {
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const router = useRouter();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<FormType>();
 
+    const onSubmit = async (data: FormType) => {
+        console.log(data);
+        try {
+            signUp(data.email, data.password).then(() => {
+                mutate("/user");
+                router.push("/home");
+            });
+        } catch (error) {
+            setErrorMessage("Sign up failed");
+        }
+    };
+
     return (
-        // <form onSubmit={handleSubmit((data) => SignUpHandler(data, setErrorMessage))} className="w-full flex flex-col gap-10">
-        <form onSubmit={handleSubmit((data) => signIn("credentials", { email: data.email, password: data.password, redirect: true, callbackUrl: "/" }))} className="w-full flex flex-col gap-10">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-10">
             {errorMessage && (
                 <Alert variant="destructive">
                     <TriangleAlert size={16} />

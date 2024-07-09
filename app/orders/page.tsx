@@ -1,9 +1,9 @@
 import { Suspense } from "react";
-import LatestOrderCard from "./LatestOrderCard";
-import OrdersCard from "./OrdersCard";
+import LatestOrderCard from "./Orders/LatestOrderCard";
+import OrdersCard from "./Orders/OrdersCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function Home() {
+export default function Home() {
     return (
         <div className="w-full flex flex-col justify-start items-start gap-5 ">
             <Suspense fallback={<Skeleton className="h-80 w-full " />}>
