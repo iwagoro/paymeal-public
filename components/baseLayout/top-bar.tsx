@@ -1,11 +1,15 @@
+"use client";
 import Link from "next/link";
-import Drawer from "./drawer";
-import { auth, signIn, signOut } from "@/lib/auth";
-import { AuthToggle } from "../util/AuthToggle";
-import { ModeToggle } from "../util/ModeToggle";
-import { NotificationToggle } from "../util/NotificationToggle";
-export const TopBar = async () => {
-    const session = await auth();
+import AuthToggle from "./toggles/AuthToggle";
+import { ModeToggle } from "./toggles/ModeToggle";
+import { NotificationToggle } from "./toggles/NotificationToggle";
+import { useContext } from "react";
+import { AuthContext } from "@/provider/AuthProvider";
+export const TopBar = () => {
+    const { user } = useContext(AuthContext);
+
+    if (!user) return null;
+
     return (
         <div className="absolute top-0 z-50 max-w-3xl w-full h-[50px] flex justify-center items-center px-5  bg-background  ">
             <div className="w-full h-full max-w-2xl flex justify-between items-center gap-10">

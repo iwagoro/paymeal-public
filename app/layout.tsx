@@ -3,11 +3,10 @@ import { Inter } from "next/font/google";
 import { TopBar } from "@/components/baseLayout/top-bar";
 import { BottomBar } from "@/components/baseLayout/bottom-bar";
 import { ThemeProvider } from "@/provider/theme-provider";
-// import { AppProvider } from "@/provider/app-provider";
 import { Toaster } from "sonner";
 
 import "./globals.css";
-import SessionProvider from "@/provider/SessionProvider";
+import AuthProvider from "@/provider/AuthProvider";
 
 const inter = Inter({
     subsets: ["latin", "cyrillic"], // 必要なサブセットを指定
@@ -30,16 +29,14 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning={true}>
             <body className={inter.className + " " + baseStyle}>
-                <SessionProvider>
-                    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-                        {/* <AppProvider> */}
+                <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+                    <AuthProvider>
                         <TopBar />
                         <div className={responsiveStyle}>{children}</div>
                         <BottomBar />
-                        {/* </AppProvider> */}
                         <Toaster />
-                    </ThemeProvider>
-                </SessionProvider>
+                    </AuthProvider>
+                </ThemeProvider>
             </body>
         </html>
     );

@@ -1,8 +1,8 @@
-import Tickets from "./Tickets";
-import PopularTickets from "./PopularTickets";
+import Tickets from "./Tickets/Tickets";
+import PopularTickets from "./Banner/PopularTickets";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import DailyTickets from "./DailyTickets";
+import DailyTickets from "./Banner/DailyTickets";
 
 export default async function TicketsPage() {
     return (

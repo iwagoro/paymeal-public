@@ -1,22 +1,30 @@
+"use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TicketCard from "./TicketCard";
-import { TagType, TicketStockType, TicketType } from "@/lib/types";
-import { getHandler } from "@/lib/apiHandler";
-import { Suspense } from "react";
+import { TagType, TicketType } from "@/lib/types";
+import fetcher from "@/lib/fetcher";
+import { Suspense, useContext } from "react";
+import { AuthContext } from "@/provider/AuthProvider";
+import useSWRImmutable from "swr/immutable";
 import StockBadges from "./StockBadge";
-const getTags = async () => {
-    const data = await getHandler({ method: "GET", endpoint: "/tags", revalidate: 100, returnType: "array" });
-    return data;
-};
+import { Skeleton } from "@/components/ui/skeleton";
 
-const getTickets = async () => {
-    const data = await getHandler({ method: "GET", endpoint: "/tickets", revalidate: 100, returnType: "array" });
-    return data;
-};
+export default function Tickets() {
+    const { user } = useContext(AuthContext);
+    const { data: tags, error: tagsError, isLoading: tagsLoading } = useSWRImmutable<TagType[]>(user.token ? ["/tags", user.token] : null, ([url, token]) => fetcher(url, token as string));
+    const {
+        data: tickets,
+        error: ticketsError,
+        isLoading: ticketsLoading,
+    } = useSWRImmutable<TicketType[]>(user.token ? ["/tickets", user.token] : null, ([url, token]) => fetcher(url, token as string));
 
-export default async function Tickets() {
-    const tags = (await getTags()) as TagType[];
-    const tickets = (await getTickets()) as TicketType[];
+    if (tagsLoading || ticketsLoading || tagsError || ticketsError) {
+        return <TicketSkeltons />;
+    }
+
+    if (!Array.isArray(tags) || !Array.isArray(tickets)) {
+        return null;
+    }
 
     const tagRelations = tags.map((tag) => {
         return {
@@ -47,7 +55,7 @@ export default async function Tickets() {
 
             {tags.map((tag, index) => (
                 <TabsContent key={index} value={tag.name} className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
-                    {tagRelations[index].tickets.map((ticketIndex, index) => (
+                    {tagRelations[index].tickets.map((ticketIndex) => (
                         <TicketCard key={tickets[ticketIndex].id} ticket={tickets[ticketIndex]}>
                             <Suspense fallback={<StockBadges id={tickets[ticketIndex].id} />}>
                                 <StockBadges id={tickets[ticketIndex].id} />
@@ -59,3 +67,15 @@ export default async function Tickets() {
         </Tabs>
     );
 }
+
+const TicketSkeltons = () => {
+    return (
+        <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
+            {Array(6)
+                .fill(0)
+                .map((_, index) => (
+                    <Skeleton key={index} className="h-64 w-full" />
+                ))}
+        </div>
+    );
+};

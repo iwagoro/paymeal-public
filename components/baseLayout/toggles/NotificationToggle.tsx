@@ -1,20 +1,14 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { BellRing, BellOff } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { getHandler, postHandler, deleteHandler } from "@/lib/apiHandler";
+import { postHandler, deleteHandler } from "@/lib/apiHandler";
 
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { UserType } from "@/lib/types";
 import { getToken } from "firebase/messaging";
 import { messaging } from "@/lib/firebase";
+import { AuthContext } from "@/provider/AuthProvider";
 
-const getUser = async (token: string) => {
-    const user = await getHandler({ method: "GET", endpoint: "/user", token: token, returnType: "object" });
-    return user;
-};
 const registerServiceWorker = async () => {
     if ("serviceWorker" in navigator) {
         const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
@@ -24,14 +18,7 @@ const registerServiceWorker = async () => {
 };
 
 export function NotificationToggle() {
-    const { data: session } = useSession();
-    const [user, setUser] = useState<UserType>({} as UserType);
-
-    useEffect(() => {
-        if (session) {
-            getUser(session.idToken).then((data) => setUser(data as UserType));
-        }
-    }, [session]);
+    const { user, setUser } = useContext(AuthContext);
 
     const getNotificationToken = async () => {
         const permission = await Notification.requestPermission();
@@ -53,12 +40,12 @@ export function NotificationToggle() {
 
     const setNotificationToken = async () => {
         getNotificationToken().then((token) => {
-            session && token && postHandler({ endpoint: "/user/notification", token: session.idToken, params: { token: token } }).then(() => setUser({ ...user, notification_token: token }));
+            user.token && token && postHandler({ endpoint: "/user/notification", token: user.token, params: { token: token } }).then(() => setUser({ ...user, notification_token: token }));
         });
     };
 
     const deleteNotifications = async () => {
-        session && deleteHandler({ endpoint: "/user/notification", token: session.idToken }).then(() => setUser({ ...user, notification_token: null }));
+        user.token && deleteHandler({ endpoint: "/user/notification", token: user.token }).then(() => setUser({ ...user, notification_token: null }));
     };
 
     return (
