@@ -13,10 +13,10 @@ import ItemTable from "./ItemTable";
 
 export default function CartItems() {
     const { user } = useContext(AuthContext);
-    const { data: cart, error, isLoading } = useSWR<CartType>(user.token ? ["/cart", user.token] : null, ([url, token]) => fetcher(url, token as string));
+    const { data: cart, error, isLoading } = useSWR<CartType>(user?.token ? ["/cart", user.token] : null, ([url, token]) => fetcher(url, token as string));
 
     const add = async (ticketId: number) => {
-        user.token &&
+        user?.token &&
             cart &&
             modifier
                 .post("/cart/", user.token, { ticket_id: ticketId })
@@ -30,7 +30,7 @@ export default function CartItems() {
     };
 
     const sub = async (ticketId: number) => {
-        user.token &&
+        user?.token &&
             cart &&
             modifier
                 .delete("/cart/", user.token, { ticket_id: ticketId })

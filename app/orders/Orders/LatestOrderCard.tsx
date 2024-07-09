@@ -16,13 +16,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LatestOrderCard() {
     const { user } = useContext(AuthContext);
-    const { data: order, error, isLoading } = useSWR<OrderType>(user.token ? ["/orders/latest", user.token] : null, ([url, token]) => fetcher(url, token as string));
+    const { data: order, error, isLoading } = useSWR<OrderType>(user?.token ? ["/orders/latest", user.token] : null, ([url, token]) => fetcher(url, token as string));
     const today = format(toZonedTime(new Date(), "Asia/Tokyo"), "HH:mm");
     const isAvailable = today >= "11:00" && today <= "13:00";
     const isExpired = order?.purchase_date && order.purchase_date.toLocaleString() != today;
 
     const placeOrder = async () => {
-        user.token && order?.id && modifier.post("/orders/", user.token, { order_id: order.id });
+        user?.token && order?.id && modifier.post("/orders/", user.token, { order_id: order.id });
     };
 
     if (error || isLoading) {
