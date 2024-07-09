@@ -4,16 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TicketType } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
-import { postHandler } from "@/lib/apiHandler";
-import React from "react";
+import React, { useContext } from "react";
 import { toast } from "sonner";
-import { useSession } from "next-auth/react";
+import modifier from "@/lib/modifier";
+import { AuthContext } from "@/provider/AuthProvider";
 
 export default function TicketCard({ ticket, children }: { ticket: TicketType; children?: React.ReactNode }) {
-    const { data: session } = useSession();
+    const { user } = useContext(AuthContext);
+
     const addToCart = async () => {
-        session &&
-            postHandler({ endpoint: "/cart/", token: session.idToken, params: { ticket_id: ticket.id } })
+        user.token &&
+            ticket.id &&
+            modifier
+                .post("/cart/", user.token, { ticket_id: ticket.id })
                 .then(() => {
                     toast.success("Added to cart");
                 })
@@ -21,6 +24,7 @@ export default function TicketCard({ ticket, children }: { ticket: TicketType; c
                     toast.error("Failed to add to cart");
                 });
     };
+
     return (
         <Card key={ticket.id} className="h-fit">
             <img src={ticket.img_url} alt={ticket.name} className="w-full aspect-video object-cover" />
