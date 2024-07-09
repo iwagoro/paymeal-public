@@ -1,33 +1,14 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import OrdersTable from "./OrdersTable";
-import { getHandler } from "@/lib/apiHandler";
-import { OrderType } from "@/lib/types";
-import { Suspense, useEffect, useState } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Suspense, useContext, useEffect, useState } from "react";
 import { PulseSpinner } from "react-spinners-kit";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useSession } from "next-auth/react";
-
-const getOrders = async (token: string, status: string) => {
-    const orders = await getHandler({ method: "GET", endpoint: "/orders/all/", params: { status: status }, token: token, revalidate: 10, returnType: "array" });
-    return orders;
-};
+import OrdersTable from "./OrdersTable";
 
 export default function OrdersCard() {
     const tabs = ["purchased", "ordered", "completed"];
-    const { data: session } = useSession();
-    const [orders, setOrders] = useState<OrderType[]>({} as OrderType[]);
     const [status, setStatus] = useState("purchased");
-
-    useEffect(() => {
-        console.log(status);
-        if (session?.idToken) {
-            getOrders(session.idToken, status).then((data) => {
-                setOrders(data);
-            });
-        }
-    }, [status]);
 
     return (
         <Suspense
@@ -62,7 +43,7 @@ export default function OrdersCard() {
                     <CardHeader>
                         <CardTitle>Orders</CardTitle>
                     </CardHeader>
-                    <CardContent>{<OrdersTable orders={orders} />}</CardContent>
+                    <CardContent>{<OrdersTable status={status} />}</CardContent>
                 </Card>
             </Tabs>
         </Suspense>
