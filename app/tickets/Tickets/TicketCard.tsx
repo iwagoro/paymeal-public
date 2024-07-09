@@ -13,7 +13,7 @@ export default function TicketCard({ ticket, children }: { ticket: TicketType; c
     const { user } = useContext(AuthContext);
 
     const addToCart = async () => {
-        user.token &&
+        user?.token &&
             ticket.id &&
             modifier
                 .post("/cart/", user.token, { ticket_id: ticket.id })
