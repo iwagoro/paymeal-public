@@ -7,6 +7,7 @@ import { AuthContext } from "@/provider/AuthProvider";
 import fetcher from "@/lib/fetcher";
 import useSWRImmutable from "swr/immutable";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardHeader } from "@/components/ui/card";
 
 export default function DailyTickets() {
     const { user } = useContext(AuthContext);
@@ -22,20 +23,22 @@ export default function DailyTickets() {
             <BannerCard>
                 {Array.isArray(tickets) &&
                     tickets.map((ticket, index) => (
-                        <div key={index} className="flex items-center h-full gap-5">
-                            <div className="flex-[2]">
-                                <img src={ticket.img_url} alt={ticket.name} className="w-full" />
-                            </div>
-                            <div className="flex-[3] flex flex-col  gap-5">
-                                <H1 className="text-4xl font-bold">{ticket.name}</H1>
-                                <List className="">
-                                    {Array.isArray(ticket.contents) &&
-                                        ticket.contents.map((content, index) => {
-                                            return <li key={index}>{content}</li>;
-                                        })}
-                                </List>
-                            </div>
-                        </div>
+                        <Card key={index} className="flex items-center h-full gap-5">
+                            <CardHeader className="flex flex-row gap-5 justify-center">
+                                <div className="flex-[2] flex  items-center">
+                                    <img src={ticket.img_url} alt={ticket.name} className="w-full" />
+                                </div>
+                                <div className="flex-[4] flex flex-col  gap-5">
+                                    <H2>{ticket.name}</H2>
+                                    <List>
+                                        {Array.isArray(ticket.contents) &&
+                                            ticket.contents.map((content, index) => {
+                                                return <li key={index}>{content}</li>;
+                                            })}
+                                    </List>
+                                </div>
+                            </CardHeader>
+                        </Card>
                     ))}
             </BannerCard>
         </div>

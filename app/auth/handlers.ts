@@ -54,10 +54,10 @@ export const signUp = async (email: string, password: string) => {
         const user = userCredential.user;
         if (user) {
             const token = await getIdToken(user);
-            await modifier.post("/user", token);
-            return true;
-        } else {
-            throw new Error("User not found");
+            modifier.post("/user", token).catch((error) => {
+                modifier.delete("/user", token);
+                throw new Error(error);
+            });
         }
     } catch (error: any) {
         if (error.code) {

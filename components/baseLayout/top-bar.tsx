@@ -19,7 +19,7 @@ export const TopBar = () => {
                     </div>
                 </Link>
                 <div className="w-fit flex gap-5 items-center">
-                    <NotificationToggle />
+                    {/* <NotificationToggle /> */}
                     <ModeToggle />
                     <AuthToggle />
                 </div>

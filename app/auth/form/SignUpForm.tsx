@@ -9,7 +9,6 @@ import { TriangleAlert } from "lucide-react";
 import { FormType, signUp } from "../handlers";
 import { useRouter } from "next/navigation";
 import { mutate } from "swr";
-import { toast } from "sonner";
 
 export default function SignUpForm({ variation }: { variation?: "outline" | "default" }) {
     const [errorMessage, setErrorMessage] = useState<string>("");
@@ -21,15 +20,14 @@ export default function SignUpForm({ variation }: { variation?: "outline" | "def
     } = useForm<FormType>();
 
     const onSubmit = async (data: FormType) => {
-        console.log(data);
-        try {
-            signUp(data.email, data.password).then(() => {
+        signUp(data.email, data.password)
+            .then(() => {
                 mutate("/user");
                 router.push("/home");
+            })
+            .catch((error: any) => {
+                setErrorMessage(error.toString());
             });
-        } catch (error) {
-            setErrorMessage("Sign up failed");
-        }
     };
 
     return (
