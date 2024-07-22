@@ -57,8 +57,8 @@ export function NotificationToggle() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setNotificationToken()}>Enable Notification</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => deleteNotifications()}>Disable Notification</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setNotificationToken()}>通知を有効にする</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => deleteNotifications()}>通知を無効にする</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

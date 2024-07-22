@@ -12,23 +12,25 @@ export default function AuthPage() {
             <Card className="w-full max-w-lg">
                 {/* //? カードのヘッダーにタイトルと説明を表示する */}
                 <CardHeader className="w-full flex justify-center gap-5">
-                    <CardTitle className="text-center">{state === "signup" ? "Sign Up" : "Login"}</CardTitle>
-                    <CardDescription className="text-center">Welcome to the app! Please {state === "signup" ? "Sign Up" : "Login"} to continue</CardDescription>
+                    <CardTitle className="text-center">{state === "signup" ? "新規登録" : "サインイン"}</CardTitle>
+                    <CardDescription className="text-center">Paymealへようこそ!{state === "signup" ? "新規登録" : "サインイン"}をお願いします。</CardDescription>
                 </CardHeader>
                 {/* //? サインアップとログインのフォームを表示する */}
                 <CardContent>{state === "signup" ? <SignUpForm /> : <LoginForm />}</CardContent>
                 {/* //?SingupとLoginの切り替えボタン */}
                 <CardFooter className="w-full">
                     <CardDescription className="flex w-full  justify-center">
-                        {state === "signup" ? "Already have an account?" : "Don't have an account?"}
+                        {state === "signup" ? "既にアカウントを持っている" : "まだアカウントを持っていない"}
+                        場合は
                         <button
                             className="text-primary underline"
                             onClick={() => {
                                 setState(state === "signup" ? "login" : "signup");
                             }}
                         >
-                            {state === "signup" ? "Login" : "Sign Up"}
+                            {state === "signup" ? "サインイン" : "新規登録"}
                         </button>
+                        をお願いします。
                     </CardDescription>
                 </CardFooter>
             </Card>

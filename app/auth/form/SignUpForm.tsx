@@ -41,10 +41,10 @@ export default function SignUpForm({ variation }: { variation?: "outline" | "def
                     <AlertDescription>{errorMessage}</AlertDescription>
                 </Alert>
             )}
-            <FormInput id="email" label="Email" type="email" register={register} errors={errors} validation={{ required: "Email is required" }} />
-            <FormInput id="password" label="Password" type="password" register={register} errors={errors} validation={{ required: "Password is required" }} />
+            <FormInput id="email" label="メールアドレス" type="email" register={register} errors={errors} validation={{ required: "Email is required" }} />
+            <FormInput id="password" label="パスワード" type="password" register={register} errors={errors} validation={{ required: "Password is required" }} />
             <Button className="w-full" type="submit" variant={variation}>
-                Sign Up
+                新規登録
             </Button>
         </form>
     );

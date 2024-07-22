@@ -26,7 +26,7 @@ export default function LoginForm() {
             if (result) {
                 mutate("/user");
                 router.push("/home");
-                toast.success("Login successful");
+                toast.success("サインインに成功しました");
             }
         } catch (error: any) {
             setErrorMessage(error.message);
@@ -42,10 +42,10 @@ export default function LoginForm() {
                     <AlertDescription>{errorMessage}</AlertDescription>
                 </Alert>
             )}
-            <FormInput id="email" label="Email" type="email" register={register} errors={errors} validation={{ required: "Email is required" }} />
-            <FormInput id="password" label="Password" type="password" register={register} errors={errors} validation={{ required: "Password is required" }} />
+            <FormInput id="email" label="メールアドレス" type="email" register={register} errors={errors} validation={{ required: "Email is required" }} />
+            <FormInput id="password" label="パスワード" type="password" register={register} errors={errors} validation={{ required: "Password is required" }} />
             <Button className="w-full" type="submit">
-                Login
+                サインイン
             </Button>
         </form>
     );

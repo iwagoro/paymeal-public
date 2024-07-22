@@ -8,10 +8,9 @@ export default function IsOrderAvailableCard() {
         <Card className="w-full">
             <CardHeader>
                 <CardTitle>
-                    <span className="text-primary text-4xl">{isAvailable ? "A" : "Una"}vailable</span>
-                    <br /> to order
+                    <span className="text-primary text-4xl">注文{isAvailable ? "可能" : "不可"}</span>です
                 </CardTitle>
-                <CardDescription>Order is available between 11:00 and 13:00</CardDescription>
+                <CardDescription>11:00から13:00までの間に注文が可能です</CardDescription>
             </CardHeader>
         </Card>
     );
