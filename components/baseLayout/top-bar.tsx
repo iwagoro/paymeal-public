@@ -2,7 +2,6 @@
 import Link from "next/link";
 import AuthToggle from "./toggles/AuthToggle";
 import { ModeToggle } from "./toggles/ModeToggle";
-import { NotificationToggle } from "./toggles/NotificationToggle";
 import { useContext } from "react";
 import { AuthContext } from "@/provider/AuthProvider";
 export const TopBar = () => {
@@ -19,7 +18,6 @@ export const TopBar = () => {
                     </div>
                 </Link>
                 <div className="w-fit flex gap-5 items-center">
-                    <NotificationToggle />
                     <ModeToggle />
                     <AuthToggle />
                 </div>

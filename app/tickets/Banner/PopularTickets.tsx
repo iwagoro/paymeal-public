@@ -8,6 +8,7 @@ import { AuthContext } from "@/provider/AuthProvider";
 import fetcher from "@/lib/fetcher";
 import useSWRImmutable from "swr/immutable";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardHeader } from "@/components/ui/card";
 
 export default function PopularTickets() {
     const { user } = useContext(AuthContext);
@@ -18,22 +19,23 @@ export default function PopularTickets() {
     }
 
     return (
-        <div>
+        <div className="w-full">
             <H3 className="pl-[21px]">Popular Menus</H3>
             <BannerCard>
                 {Array.isArray(tickets) &&
                     tickets.map((ticket, index) => (
-                        <div key={index} className="flex items-center h-full gap-5">
-                            <div className="flex-[2]">
-                                <img src={ticket.img_url} alt={ticket.name} className="w-full" />
-                            </div>
-                            <div className="flex-[3] flex flex-col  gap-5">
-                                <H3 className="text-xl text-gray-400">{index + 1}番人気</H3>
-                                <H1 className="text-4xl font-bold">{ticket.name}</H1>
-                                <P>{ticket.description}</P>
-                                <Badge className="w-fit">{ticket.price}</Badge>
-                            </div>
-                        </div>
+                        <Card key={index} className="w-full flex items-center h-full gap-5">
+                            <CardHeader className="w-full flex flex-row gap-5">
+                                <div className="flex-[2]">
+                                    <img src={ticket.img_url} alt={ticket.name} className="w-full" />
+                                </div>
+                                <div className="flex-[3] flex flex-col  gap-5">
+                                    <H3 className="text-xl text-gray-400">{index + 1}番人気</H3>
+                                    <H1 className="text-4xl font-bold">{ticket.name}</H1>
+                                    <Badge className="w-fit">¥{ticket.price}</Badge>
+                                </div>
+                            </CardHeader>
+                        </Card>
                     ))}
             </BannerCard>
         </div>
