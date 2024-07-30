@@ -26,7 +26,7 @@ export default function CartSummary() {
                     window.open(url, "_blank");
                 })
                 .catch(() => {
-                    toast.error("Failed to add to cart");
+                    toast.error("Failed to purchase");
                 });
     };
 

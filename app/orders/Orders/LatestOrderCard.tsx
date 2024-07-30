@@ -3,13 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { TriangleAlert } from "lucide-react";
 import { toZonedTime, format } from "date-fns-tz";
 import { useContext } from "react";
 import { AuthContext } from "@/provider/AuthProvider";
 import fetcher from "@/lib/fetcher";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import modifier from "@/lib/modifier";
 import { OrderType } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,11 +16,14 @@ export default function LatestOrderCard() {
     const { user } = useContext(AuthContext);
     const { data: order, error, isLoading } = useSWR<OrderType>(user?.token ? ["/orders/latest", user.token] : null, ([url, token]) => fetcher(url, token as string));
     const today = format(toZonedTime(new Date(), "Asia/Tokyo"), "HH:mm");
-    const isAvailable = today >= "11:00" && today <= "13:00";
-    const isExpired = order?.purchase_date && order.purchase_date.toLocaleString() != today;
+    const isAvailable = today >= "11:00" && today <= "19:00";
 
     const placeOrder = async () => {
-        user?.token && order?.id && modifier.post("/orders/", user.token, { order_id: order.id });
+        if (user?.token && order?.id) {
+            modifier.post("/orders/", user.token, { order_id: order.id }).then(() => {
+                mutate(["/orders/latest", user.token]);
+            });
+        }
     };
 
     if (error || isLoading) {
@@ -43,7 +44,7 @@ export default function LatestOrderCard() {
                 <Badge className="w-fit h-fit">{order?.status ? order.status : "not found"}</Badge>
             </CardHeader>
 
-            <CardContent>
+            {/* <CardContent>
                 {isExpired && (
                     <Alert variant="destructive">
                         <AlertTitle className="text-2xl font-semibold flex gap-2 items-center">
@@ -53,7 +54,7 @@ export default function LatestOrderCard() {
                         <AlertDescription>This ticket is expired. Ordering is not possible. Please buy another one.</AlertDescription>
                     </Alert>
                 )}
-            </CardContent>
+            </CardContent> */}
             <CardContent>
                 {Array.isArray(order?.items) && (
                     <Table>
@@ -77,8 +78,8 @@ export default function LatestOrderCard() {
                         </TableBody>
                     </Table>
                 )}
-                <Button disabled={order?.status !== "purchased" || isExpired || !isAvailable} className="w-full" onClick={placeOrder}>
-                    {order?.status === "purchased" && !isExpired ? "Order" : "Unable to order"}
+                <Button disabled={order?.status !== "purchased" || !isAvailable} className="w-full" onClick={placeOrder}>
+                    {order?.status === "purchased" ? "Order" : "Unable to order"}
                 </Button>
             </CardContent>
         </Card>
