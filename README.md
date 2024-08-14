@@ -14,9 +14,6 @@
     <img src="https://img.shields.io/badge/-typescript-white.svg?logo=typescript&style=for-the-badge">
     <img src="https://img.shields.io/badge/-firebase-white.svg?logo=firebase&style=for-the-badge">
 </p>
-## プレゼン資料
-<a href="https://www.canva.com/design/DAGIXdHdIoM/_5AT99SJErDCXMLDnJkWqA/edit?utm_content=DAGIXdHdIoM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">最終報告資料</a>
-<a href="https://www.canva.com/design/DAF3PZPV7h8/0E7X8lyLWpZT-1MjwCf3Vg/edit?utm_content=DAF3PZPV7h8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">システム提案書</a>
 
 
 ## 概要
@@ -24,6 +21,11 @@
 ![image](https://github.com/iwagoro/pay-meal/assets/42830468/65d0d15a-36ea-4fbc-b2a5-177ccba30f0e)
 
 Paymeal は、学食の利用をよりスマートにするためのアプリケーションです。Next.js と FastAPI を使用して構築されており、高速な動作を実現しています。
+
+
+## プレゼン資料
+<a href="https://www.canva.com/design/DAGIXdHdIoM/_5AT99SJErDCXMLDnJkWqA/edit?utm_content=DAGIXdHdIoM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">最終報告資料</a>
+<a href="https://www.canva.com/design/DAF3PZPV7h8/0E7X8lyLWpZT-1MjwCf3Vg/edit?utm_content=DAF3PZPV7h8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">システム提案書</a>
 
 ## 特徴
 
