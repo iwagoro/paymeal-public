@@ -14,10 +14,10 @@
     <img src="https://img.shields.io/badge/-typescript-white.svg?logo=typescript&style=for-the-badge">
     <img src="https://img.shields.io/badge/-firebase-white.svg?logo=firebase&style=for-the-badge">
 </p>
+## プレゼン資料
+<a href="https://www.canva.com/design/DAGIXdHdIoM/_5AT99SJErDCXMLDnJkWqA/edit?utm_content=DAGIXdHdIoM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">最終報告資料</a>
+<a href="https://www.canva.com/design/DAF3PZPV7h8/0E7X8lyLWpZT-1MjwCf3Vg/edit?utm_content=DAF3PZPV7h8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">システム提案書</a>
 
-<p align="center">
-  <img src="demo-image-url.png" alt="Paymeal Demo" width="600">
-</p>
 
 ## 概要
 
